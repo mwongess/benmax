@@ -77,6 +77,12 @@
 .login form div input:focus{
   @apply border-none outline outline-2 outline-blue-500
 }
+.new-client form input{
+  @apply bg-transparent border border-blue-800 rounded p-2
+}
+.new-client form input:focus{
+  @apply  outline outline-2 outline-blue-500
+}
 @layer base {
   * {
     @apply border-border;

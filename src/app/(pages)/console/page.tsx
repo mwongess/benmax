@@ -1,6 +1,12 @@
+import Summary from "@/components/Summary"
+import Records from "./records/page"
+
 const Console = () => {
     return (
-        <div>Console</div>
+        <div>
+            <Summary/>
+            <Records/>
+        </div>
     )
 }
 
