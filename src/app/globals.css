@@ -65,7 +65,18 @@
     --ring: 240 4.9% 83.9%;
   }
 }
- 
+.login form{
+  @apply w-full sm:w-[30%] p-4
+}
+.login form div {
+  @apply flex flex-col
+}
+.login form div input{
+  @apply border border-slate-600  p-2 rounded bg-transparent
+}
+.login form div input:focus{
+  @apply border-none outline outline-2 outline-blue-500
+}
 @layer base {
   * {
     @apply border-border;
@@ -74,3 +85,4 @@
     @apply bg-background text-foreground;
   }
 }
+
