@@ -34,6 +34,15 @@ const NewRecord = () => {
     try {
 
       appwriteService.createClient(data)
+
+      // clear form
+      setFormData({
+        name: "",
+        phone: "",
+        meter: "",
+        initialReading: "",
+        finalReading: "",
+      })
     } catch (error: any) {
       setError(error.message)
     }
@@ -51,7 +60,7 @@ const NewRecord = () => {
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="w-full sm:w-1/2 flex flex-col">
             <label htmlFor="">Name</label>
-            <input type="text" onChange={(e) =>
+            <input type="text" value={formData.name} onChange={(e) =>
               setFormData((prev) => ({
                 ...prev,
                 name: e.target.value,
@@ -60,7 +69,7 @@ const NewRecord = () => {
           </div>
           <div className="w-full sm:w-1/2 flex flex-col">
             <label htmlFor="">Phone</label>
-            <input type="text" onChange={(e) =>
+            <input type="text" value={formData.phone} onChange={(e) =>
               setFormData((prev) => ({
                 ...prev,
                 phone: e.target.value,
@@ -69,7 +78,7 @@ const NewRecord = () => {
         </div>
         <div className="w-full flex flex-col">
           <label htmlFor="">Meter Number</label>
-          <input type="text" onChange={(e) =>
+          <input type="text" value={formData.meter} onChange={(e) =>
             setFormData((prev) => ({
               ...prev,
               meter: e.target.value,

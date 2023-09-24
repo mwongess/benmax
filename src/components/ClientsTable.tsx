@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { BiTrash} from "react-icons/bi";
+import { BiTrash } from "react-icons/bi";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -36,37 +36,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import { appwriteService } from "@/appwrite/config";
 
-const data: any = [
-    {
-        id: "m5gr84i9",
-        name: "amos",
-        phone: "17923456",
-        meter: 3456,
-        initialUnits: 12,
-        finalUnits: 16,
-        totalBill: 389,
-    },
-    {
-        id: "m5gr84i9",
-        name: "amos",
-        phone: 17923456,
-        meter: 3456,
-        initialUnits: 12,
-        finalUnits: 16,
-        totalBill: 389,
-    },
-    {
-        id: "m5gr84i9",
-        name: "amos",
-        phone: 17923456,
-        meter: 3456,
-        initialUnits: 12,
-        finalUnits: 16,
-        totalBill: 389,
-    },
-
-]
 
 export const columns: ColumnDef<any>[] = [
     {
@@ -126,34 +97,34 @@ export const columns: ColumnDef<any>[] = [
         cell: ({ row }) => <div className="lowercase">{row.getValue("meter")}</div>,
     },
     {
-        accessorKey: "initialUnits",
+        accessorKey: "initialReading",
         header: ({ column }) => {
             return (
                 <p
                     className="flex"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Initial Units
+                    Initial Reading
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </p>
             )
         },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("initialUnits")}</div>,
+        cell: ({ row }) => <div className="lowercase">{row.getValue("initialReading")}</div>,
     },
     {
-        accessorKey: "finalUnits",
+        accessorKey: "finalReading",
         header: ({ column }) => {
             return (
                 <p
                     className="flex"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Final Units
+                    Final Reading
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </p>
             )
         },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("finalUnits")}</div>,
+        cell: ({ row }) => <div className="lowercase">{row.getValue("finalReading")}</div>,
     },
 
     {
@@ -162,7 +133,6 @@ export const columns: ColumnDef<any>[] = [
         cell: ({ row }) => {
             const amount = parseFloat(row.getValue("totalBill"))
 
-            // Format the amount as a dollar amount
             const formatted = new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "ksh",
@@ -175,7 +145,7 @@ export const columns: ColumnDef<any>[] = [
         id: "actions",
         enableHiding: false,
         cell: ({ row }) => {
-            const payment = row.original
+            const client = row.original
 
             return (
                 <DropdownMenu>
@@ -188,7 +158,7 @@ export const columns: ColumnDef<any>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.phone)}
+                            onClick={() => navigator.clipboard.writeText(client.phone)}
                         >
                             Copy Phone Number
                         </DropdownMenuItem>
@@ -196,8 +166,8 @@ export const columns: ColumnDef<any>[] = [
                         <DropdownMenuItem>View Client</DropdownMenuItem>
                         <DropdownMenuItem>View Client details</DropdownMenuItem>
                         <DropdownMenuItem>
-                            <p className="flex items-center gap-2 text-red-800 text-base">
-                                <BiTrash/>
+                            <p className="flex items-center gap-2 text-red-800 text-base" onClick={() => { appwriteService.deleteClient(client.$id) }}>
+                                <BiTrash />
                                 Delete Client
                             </p>
                         </DropdownMenuItem>
@@ -208,7 +178,7 @@ export const columns: ColumnDef<any>[] = [
     },
 ]
 
-export function ClientsTable() {
+export function ClientsTable({ data }: any) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -317,7 +287,7 @@ export function ClientsTable() {
                                     colSpan={columns.length}
                                     className="h-24 text-center"
                                 >
-                                    No results.
+                                    No Clients Found.
                                 </TableCell>
                             </TableRow>
                         )}
