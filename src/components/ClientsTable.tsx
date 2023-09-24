@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { BiTrash } from "react-icons/bi";
+import { useRouter } from 'next/navigation';
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -37,146 +38,8 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { appwriteService } from "@/appwrite/config";
+import { FaCopy, FaUserEdit } from "react-icons/fa";
 
-
-export const columns: ColumnDef<any>[] = [
-    {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={table.getIsAllPageRowsSelected()}
-                onCheckedChange={(value: any) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value: any) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-    },
-    {
-        accessorKey: "name",
-        header: "Name",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("name")}</div>
-        ),
-    },
-    {
-        accessorKey: "phone",
-        header: ({ column }) => {
-            return (
-                <p
-                    className="flex"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Phone Number
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </p>
-            )
-        },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("phone")}</div>,
-    },
-    {
-        accessorKey: "meter",
-        header: ({ column }) => {
-            return (
-                <p
-                    className=" flex"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Meter
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </p>
-            )
-        },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("meter")}</div>,
-    },
-    {
-        accessorKey: "initialReading",
-        header: ({ column }) => {
-            return (
-                <p
-                    className="flex"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Initial Reading
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </p>
-            )
-        },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("initialReading")}</div>,
-    },
-    {
-        accessorKey: "finalReading",
-        header: ({ column }) => {
-            return (
-                <p
-                    className="flex"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Final Reading
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </p>
-            )
-        },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("finalReading")}</div>,
-    },
-
-    {
-        accessorKey: "totalBill",
-        header: () => <div className="text-right">Total Bill</div>,
-        cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("totalBill"))
-
-            const formatted = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "ksh",
-            }).format(amount)
-
-            return <div className="text-right font-medium">{formatted}</div>
-        },
-    },
-    {
-        id: "actions",
-        enableHiding: false,
-        cell: ({ row }) => {
-            const client = row.original
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(client.phone)}
-                        >
-                            Copy Phone Number
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>View Client</DropdownMenuItem>
-                        <DropdownMenuItem>View Client details</DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <p className="flex items-center gap-2 text-red-800 text-base" onClick={() => { appwriteService.deleteClient(client.$id) }}>
-                                <BiTrash />
-                                Delete Client
-                            </p>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )
-        },
-    },
-]
 
 export function ClientsTable({ data }: any) {
     const [sorting, setSorting] = React.useState<SortingState>([])
@@ -186,7 +49,151 @@ export function ClientsTable({ data }: any) {
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
+    const router = useRouter()
+    const columns: ColumnDef<any>[] = [
+        {
+            id: "select",
+            header: ({ table }) => (
+                <Checkbox
+                    checked={table.getIsAllPageRowsSelected()}
+                    onCheckedChange={(value: any) => table.toggleAllPageRowsSelected(!!value)}
+                    aria-label="Select all"
+                />
+            ),
+            cell: ({ row }) => (
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value: any) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                />
+            ),
+            enableSorting: false,
+            enableHiding: false,
+        },
+        {
+            accessorKey: "name",
+            header: "Name",
+            cell: ({ row }) => (
+                <div className="capitalize">{row.getValue("name")}</div>
+            ),
+        },
+        {
+            accessorKey: "phone",
+            header: ({ column }) => {
+                return (
+                    <p
+                        className="flex"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Phone Number
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </p>
+                )
+            },
+            cell: ({ row }) => <div className="lowercase">{row.getValue("phone")}</div>,
+        },
+        {
+            accessorKey: "meter",
+            header: ({ column }) => {
+                return (
+                    <p
+                        className=" flex"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Meter
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </p>
+                )
+            },
+            cell: ({ row }) => <div className="lowercase">{row.getValue("meter")}</div>,
+        },
+        {
+            accessorKey: "initialReading",
+            header: ({ column }) => {
+                return (
+                    <p
+                        className="flex"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Initial Reading
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </p>
+                )
+            },
+            cell: ({ row }) => <div className="lowercase">{row.getValue("initialReading")}</div>,
+        },
+        {
+            accessorKey: "finalReading",
+            header: ({ column }) => {
+                return (
+                    <p
+                        className="flex"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Final Reading
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </p>
+                )
+            },
+            cell: ({ row }) => <div className="lowercase">{row.getValue("finalReading")}</div>,
+        },
 
+        {
+            accessorKey: "totalBill",
+            header: () => <div className="text-right">Total Bill</div>,
+            cell: ({ row }) => {
+                const amount = parseFloat(row.getValue("totalBill"))
+
+                const formatted = new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "ksh",
+                }).format(amount)
+
+                return <div className="text-right font-medium">{formatted}</div>
+            },
+        },
+        {
+            id: "actions",
+            enableHiding: false,
+            cell: ({ row }) => {
+                const client = row.original
+
+                return (
+                    <DropdownMenu >
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">Open menu</span>
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" >
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem
+                                onClick={() => navigator.clipboard.writeText(client.phone)}
+                            >
+                                <p className="flex items-center gap-2 text-base cursor-pointer" >
+                                    <FaCopy />
+                                    Copy Phone
+                                </p>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                <p onClick={() => { router.push(`/console/records/update/${client.$id}`) }} className="text-green-900 flex items-center gap-2  text-base cursor-pointer">
+                                    <FaUserEdit />
+                                    Update</p>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <p className="flex items-center gap-2 text-red-900 text-base cursor-pointer" onClick={() => { appwriteService.deleteClient(client.$id) }}>
+                                    <BiTrash />
+                                    Delete
+                                </p>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )
+            },
+        },
+    ]
     const table = useReactTable({
         data,
         columns,

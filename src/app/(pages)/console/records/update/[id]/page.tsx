@@ -4,7 +4,7 @@ import { appwriteService } from "@/appwrite/config"
 import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
 
-const NewRecord = () => {
+const  UpdateRecord= () => {
   const [error, setError] = useState('')
   const [consumedUnits, setConsumedUnits] = useState(0)
   const [formData, setFormData] = useState({
@@ -111,11 +111,11 @@ const NewRecord = () => {
           <p className="border-2 border-blue-800 p-2 rounded">Total Cost : Ksh {totalBill}</p>
         </div>
         <div>
-          <button type="submit" className="bg-green-500 rounded p-2 w-full">Save</button>
+          <button type="submit" className="bg-green-500 rounded p-2 w-full">Update</button>
         </div>
       </form>
     </div>
   )
 }
 
-export default NewRecord
+export default UpdateRecord
