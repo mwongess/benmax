@@ -1,6 +1,7 @@
 "use client"
 
 import { appwriteService } from "@/appwrite/config"
+import { log } from "console"
 import { FormEvent, useEffect, useState } from "react"
 
 const NewRecord = () => {
@@ -17,12 +18,14 @@ const NewRecord = () => {
   const totalBill = consumedUnits * costPerUnit
 
   useEffect(() => {
-    if (formData.finalReading >= formData.initialReading) {
+    console.log(formData.finalReading, formData.initialReading);
+
+    if (Number(formData.finalReading) >= Number(formData.initialReading)) {
       setConsumedUnits(Number(formData.finalReading) - Number(formData.initialReading))
     } else {
       setConsumedUnits(0)
     }
-  }, [formData.initialReading, formData.finalReading])
+  }, [formData])
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
