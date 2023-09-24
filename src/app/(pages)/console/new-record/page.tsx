@@ -1,36 +1,102 @@
+"use client"
+
+import { appwriteService } from "@/appwrite/config"
+import { FormEvent, useEffect, useState } from "react"
+
 const NewRecord = () => {
+  const [error, setError] = useState('')
+  const [consumedUnits, setConsumedUnits] = useState(0)
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    meter: "",
+    initialReading: "",
+    finalReading: "",
+  })
+  const costPerUnit = 30
+  const totalBill = consumedUnits * costPerUnit
+
+  useEffect(() => {
+    if (formData.finalReading >= formData.initialReading) {
+      setConsumedUnits(Number(formData.finalReading) - Number(formData.initialReading))
+    } else {
+      setConsumedUnits(0)
+    }
+  }, [formData.initialReading, formData.finalReading])
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault()
+    if (formData.finalReading < formData.initialReading) {
+      setError('Final reading cannot be less than initial reading!')
+      return
+    }
+    const data = { ...formData, consumedUnits, totalBill }
+    try {
+
+      appwriteService.createClient(data)
+    } catch (error: any) {
+      setError(error.message)
+    }
+  }
   return (
     <div className="new-client">
       <h1 className="font-bold mb-2 border-b pb-2">New Client</h1>
-      <form action="" className="flex flex-col  gap-8 w-full">
+      <form onSubmit={handleSubmit} className="flex flex-col  gap-8 w-full">
+        {
+          error &&
+          <div className="my-2 border-red-700 bg-red-400 text-red-700 rounded text-center p-4 font-bold">
+            <h1>{error}</h1>
+          </div>
+        }
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="w-full sm:w-1/2 flex flex-col">
             <label htmlFor="">Name</label>
-            <input type="text" placeholder="Client Name" />
+            <input type="text" onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                name: e.target.value,
+              }))} name="name"
+              placeholder="Client Name" />
           </div>
           <div className="w-full sm:w-1/2 flex flex-col">
             <label htmlFor="">Phone</label>
-            <input type="text" placeholder="Client phone number" />
+            <input type="text" onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                phone: e.target.value,
+              }))} name="phone" placeholder="Client phone number" required />
           </div>
         </div>
         <div className="w-full flex flex-col">
           <label htmlFor="">Meter Number</label>
-          <input type="text" placeholder="Client meter number" />
+          <input type="text" onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              meter: e.target.value,
+            }))} name="meter" placeholder="Client meter number" required />
         </div>
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="w-full sm:w-1/2 flex flex-col">
             <label htmlFor="">Initial Units</label>
-            <input type="text" placeholder="Initial Units" />
+            <input type="number" onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                initialReading: e.target.value,
+              }))} min={1} name="initialReading" value={formData.initialReading} placeholder="Initial Units" required />
           </div>
           <div className="w-full sm:w-1/2 flex flex-col">
             <label htmlFor="">Final Units</label>
-            <input type="text" placeholder="Final Units" />
+            <input type="number" onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                finalReading: e.target.value,
+              }))} value={formData.finalReading} min={formData.initialReading} name="finalReading" placeholder="Final Units" required />
           </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-4 font-bold">
-          <p className="border-2 border-blue-800 p-2 rounded">Consumed Units : 10  </p>
-          <p className="border-2 border-blue-800 p-2 rounded">Cost per units : Ksh 35 </p>
-          <p className="border-2 border-blue-800 p-2 rounded">Total Cost : Ksh 350</p>
+          <p className="border-2 border-blue-800 p-2 rounded">Consumed Units : {consumedUnits}  </p>
+          <p className="border-2 border-blue-800 p-2 rounded">Cost per units : Ksh {costPerUnit} </p>
+          <p className="border-2 border-blue-800 p-2 rounded">Total Cost : Ksh {totalBill}</p>
         </div>
         <div>
           <button type="submit" className="bg-green-500 rounded p-2 w-full">Save</button>
