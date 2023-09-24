@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-
+import { BiTrash} from "react-icons/bi";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -37,47 +37,38 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-const data: Payment[] = [
+const data: any = [
     {
         id: "m5gr84i9",
-        amount: 316,
-        status: "success",
-        email: "ken99@yahoo.com",
+        name: "amos",
+        phone: "17923456",
+        meter: 3456,
+        initialUnits: 12,
+        finalUnits: 16,
+        totalBill: 389,
     },
     {
-        id: "3u1reuv4",
-        amount: 242,
-        status: "success",
-        email: "Abe45@gmail.com",
+        id: "m5gr84i9",
+        name: "amos",
+        phone: 17923456,
+        meter: 3456,
+        initialUnits: 12,
+        finalUnits: 16,
+        totalBill: 389,
     },
     {
-        id: "derv1ws0",
-        amount: 837,
-        status: "processing",
-        email: "Monserrat44@gmail.com",
+        id: "m5gr84i9",
+        name: "amos",
+        phone: 17923456,
+        meter: 3456,
+        initialUnits: 12,
+        finalUnits: 16,
+        totalBill: 389,
     },
-    {
-        id: "5kma53ae",
-        amount: 874,
-        status: "success",
-        email: "Silas22@gmail.com",
-    },
-    {
-        id: "bhqecj4p",
-        amount: 721,
-        status: "failed",
-        email: "carmella@hotmail.com",
-    },
+
 ]
 
-export type Payment = {
-    id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
-    email: string
-}
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<any>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -98,77 +89,78 @@ export const columns: ColumnDef<Payment>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: "status",
+        accessorKey: "name",
         header: "Name",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("status")}</div>
+            <div className="capitalize">{row.getValue("name")}</div>
         ),
     },
     {
-        accessorKey: "email",
+        accessorKey: "phone",
         header: ({ column }) => {
             return (
-                <Button
-                    variant="ghost"
+                <p
+                    className="flex"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
                     Phone Number
                     <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
+                </p>
             )
         },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+        cell: ({ row }) => <div className="lowercase">{row.getValue("phone")}</div>,
     },
     {
-        accessorKey: "email",
+        accessorKey: "meter",
         header: ({ column }) => {
             return (
-                <Button
-                    variant="ghost"
+                <p
+                    className=" flex"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
                     Meter
                     <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
+                </p>
             )
         },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+        cell: ({ row }) => <div className="lowercase">{row.getValue("meter")}</div>,
     },
     {
-        accessorKey: "email",
+        accessorKey: "initialUnits",
         header: ({ column }) => {
             return (
-                <Button
-                    variant="ghost"
+                <p
+                    className="flex"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
                     Initial Units
                     <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
+                </p>
             )
         },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+        cell: ({ row }) => <div className="lowercase">{row.getValue("initialUnits")}</div>,
     },
     {
-        accessorKey: "email",
+        accessorKey: "finalUnits",
         header: ({ column }) => {
             return (
-                <Button
-                    variant="ghost"
+                <p
+                    className="flex"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
                     Final Units
                     <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
+                </p>
             )
         },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+        cell: ({ row }) => <div className="lowercase">{row.getValue("finalUnits")}</div>,
     },
+
     {
-        accessorKey: "amount",
+        accessorKey: "totalBill",
         header: () => <div className="text-right">Total Bill</div>,
         cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("amount"))
+            const amount = parseFloat(row.getValue("totalBill"))
 
             // Format the amount as a dollar amount
             const formatted = new Intl.NumberFormat("en-US", {
@@ -196,13 +188,19 @@ export const columns: ColumnDef<Payment>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id)}
+                            onClick={() => navigator.clipboard.writeText(payment.phone)}
                         >
-                            Copy payment ID
+                            Copy Phone Number
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
+                        <DropdownMenuItem>View Client</DropdownMenuItem>
+                        <DropdownMenuItem>View Client details</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <p className="flex items-center gap-2 text-red-800 text-base">
+                                <BiTrash/>
+                                Delete Client
+                            </p>
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
@@ -243,9 +241,9 @@ export function ClientsTable() {
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter phone numbers..."
-                    value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+                    value={(table.getColumn("phone")?.getFilterValue() as string) ?? ""}
                     onChange={(event: any) =>
-                        table.getColumn("email")?.setFilterValue(event.target.value)
+                        table.getColumn("phone")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm rounded-lg"
                 />

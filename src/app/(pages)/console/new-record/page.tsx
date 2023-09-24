@@ -1,7 +1,7 @@
 const NewRecord = () => {
   return (
     <div className="new-client">
-      <h1 className="font-bold mb-2">New Client</h1>
+      <h1 className="font-bold mb-2 border-b pb-2">New Client</h1>
       <form action="" className="flex flex-col  gap-8 w-full">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="w-full sm:w-1/2 flex flex-col">
