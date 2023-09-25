@@ -1,6 +1,7 @@
 "use client"
 
 import { appwriteService } from "@/appwrite/config"
+import { useAuth } from "@/context/AuthContext"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { FormEvent, useState } from "react"
@@ -11,6 +12,8 @@ const Login = () => {
     email: "",
     password: ""
   })
+  const { setAuthStatus } = useAuth()
+
   const router = useRouter()
 
   const login = async (e: FormEvent) => {
@@ -19,6 +22,7 @@ const Login = () => {
       const session = await appwriteService.login(formData)
       if (session) {
         router.push("/console")
+        setAuthStatus(true)
       }
     } catch (error: any) {
       setError(error.message)

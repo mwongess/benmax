@@ -28,12 +28,15 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { appwriteService } from "@/appwrite/config"
 import { useRouter } from "next/navigation"
+import { useAuth } from "@/context/AuthContext"
 
 
 const Profile = () => {
+    const { setAuthStatus } = useAuth()
     const router = useRouter()
     const logout = () => {
         appwriteService.logout()
+        setAuthStatus(false)
         router.push('/login')
     }
     return (
