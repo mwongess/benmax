@@ -38,7 +38,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { appwriteService } from "@/appwrite/config";
-import { FaCopy, FaUserEdit } from "react-icons/fa";
+import { FaCopy, FaRegBell, FaUserEdit } from "react-icons/fa";
 
 
 export function ClientsTable({ data }: any) {
@@ -168,6 +168,13 @@ export function ClientsTable({ data }: any) {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" >
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem>
+                                <p className="flex items-center gap-2 text-base cursor-pointer">
+                                    <FaRegBell />
+                                    Alert Customer
+                                </p>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 onClick={() => navigator.clipboard.writeText(client.phone)}
                             >
@@ -176,16 +183,16 @@ export function ClientsTable({ data }: any) {
                                     Copy Phone
                                 </p>
                             </DropdownMenuItem>
-                            <DropdownMenuSeparator />
+
                             <DropdownMenuItem>
                                 <p onClick={() => { router.push(`/console/records/update/${client.$id}`) }} className="text-green-900 flex items-center gap-2  text-base cursor-pointer">
                                     <FaUserEdit />
-                                    Update</p>
+                                    Update Customer</p>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <p className="flex items-center gap-2 text-red-900 text-base cursor-pointer" onClick={() => { appwriteService.deleteClient(client.$id) }}>
                                     <BiTrash />
-                                    Delete
+                                    Delete Customer
                                 </p>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
