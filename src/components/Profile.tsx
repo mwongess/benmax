@@ -47,17 +47,17 @@ const Profile = () => {
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
                         <User className="mr-2 h-4 w-4" />
-                        <span>Profile</span>
+                        <span className="cursor-pointer">Profile</span>
                         <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                         <CreditCard className="mr-2 h-4 w-4" />
-                        <span>Billing</span>
+                        <span className="cursor-pointer">Billing</span>
                         <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                         <Settings className="mr-2 h-4 w-4" />
-                        <span>Settings</span>
+                        <span className="cursor-pointer">Settings</span>
                         <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
@@ -66,7 +66,7 @@ const Profile = () => {
                     <DropdownMenuSub>
                         <DropdownMenuSubTrigger>
                             <UserPlus className="mr-2 h-4 w-4" />
-                            <span>Invite Clients</span>
+                            <span className="cursor-pointer">Invite Clients</span>
                         </DropdownMenuSubTrigger>
                         <DropdownMenuPortal>
                             <DropdownMenuSubContent>
@@ -91,13 +91,13 @@ const Profile = () => {
 
                 <DropdownMenuItem>
                     <LifeBuoy className="mr-2 h-4 w-4" />
-                    <span>Support</span>
+                    <span className="cursor-pointer">Support</span>
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                     <LogOut className="mr-2 h-4 w-4 text-red-400" />
-                    <span className="text-red-400" onClick={logout}>Log out</span>
+                    <span className="text-red-400 cursor-pointer" onClick={logout}>Log out</span>
                     <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                 </DropdownMenuItem>
             </DropdownMenuContent>

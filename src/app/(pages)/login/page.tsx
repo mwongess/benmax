@@ -5,7 +5,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { FormEvent, useState } from "react"
 
-const page = () => {
+const Login = () => {
   const [error, setError] = useState("")
   const [formData, setFormData] = useState({
     email: "",
@@ -68,4 +68,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Login
