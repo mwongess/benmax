@@ -22,9 +22,7 @@ body {
       transparent,
       rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
-.login form{
-  @apply w-full sm:w-[30%] p-4
-}
+
 .login form div {
   @apply flex flex-col
 }

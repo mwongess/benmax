@@ -1,25 +1,38 @@
 "use client"
 
+import Image from "next/image"
 import { FormEvent } from "react"
 
 const page = () => {
-  const login = (e: FormEvent)=> {
+  const login = (e: FormEvent) => {
     e.preventDefault()
     console.log("Submitted");
-    
+
   }
   return (
-    <div className="login flex justify-center items-center  h-screen">
-      <form  onSubmit={login}>
-        <div className="mb-3">
-          <label htmlFor="username">Username</label>
-          <input  type="text" placeholder="Enter your username" />
+    <div className="login flex  h-screen w-full">
+      <div className="hidden sm:flex flex-col items-center justify-end h-full w-1/2 text-center p-4">
+        <h1 className="font-bold text-6xl tracking-wider mb-6">BenmaX is Live</h1>
+        <Image className="text-blue-500" src="/cloud.svg" height={150} width={480} alt="projection" />
+      </div>
+      <form className="flex flex-col justify-center items-center h-full w-full sm:w-1/2 bg-white" onSubmit={login}>
+        <div className="w-[75%]">
+          <div>
+            <h1 className="font-bold text-3xl ">Sign in</h1>
+          </div>
+
+          <div className="my-5">
+            <label htmlFor="username">Username*</label>
+            <input type="text" placeholder="Enter your username" />
+          </div>
+
+          <div>
+            <label htmlFor="password">Password*</label>
+            <input type="password" placeholder="Enter your password" />
+          </div>
+          <button className="text-white bg-blue-500 p-2 rounded w-full border-none mt-6" type="submit">Login</button>
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input type="password" placeholder="Enter your password" />
-        </div>
-        <button  className="text-white bg-green-400 p-2 rounded w-full border border-green-800 mt-4" type="submit">Login</button>
+
       </form>
     </div>
   )
