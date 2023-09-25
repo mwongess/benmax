@@ -1,10 +1,12 @@
 "use client"
 
 import { appwriteService } from "@/appwrite/config"
-import { useRouter } from "next/navigation"
+import { Models } from "appwrite"
+import { useParams, useRouter } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
 
-const  UpdateRecord= () => {
+const UpdateRecord = ({ params }: { params: { id: string } }) => {
+  const [data, setData] = useState<Models.Document[]>([])
   const [error, setError] = useState('')
   const [consumedUnits, setConsumedUnits] = useState(0)
   const [formData, setFormData] = useState({
@@ -14,10 +16,35 @@ const  UpdateRecord= () => {
     initialReading: "",
     finalReading: "",
   })
+  const { id } = params
   const router = useRouter()
   const costPerUnit = 30
   const totalBill = consumedUnits * costPerUnit
+  useEffect(() => {
+    fetchClients()
+  }, [])
 
+  useEffect(() => {
+    if (data[0]) {
+
+      setFormData({
+        name: data[0].name,
+        phone: data[0].phone,
+        meter: data[0].meter,
+        initialReading: data[0].initialReading,
+        finalReading: data[0].finalReading,
+      })
+    }
+  }, [data])
+  
+  const fetchClients = async () => {
+    try {
+      const { documents } = await appwriteService.getClients()
+      setData(documents.filter((document) => document.$id === id))
+    } catch (error: any) {
+      setError(error.message)
+    }
+  }
   useEffect(() => {
     if (Number(formData.finalReading) >= Number(formData.initialReading)) {
       setConsumedUnits(Number(formData.finalReading) - Number(formData.initialReading))
@@ -34,9 +61,7 @@ const  UpdateRecord= () => {
     }
     const data = { ...formData, consumedUnits, totalBill }
     try {
-
-      appwriteService.createClient(data)
-
+      appwriteService.updateClient(id, data)
       // clear form
       setFormData({
         name: "",
@@ -50,9 +75,10 @@ const  UpdateRecord= () => {
       setError(error.message)
     }
   }
+
   return (
     <div className="new-client">
-      <h1 className="font-bold mb-2 border-b pb-2">New Client</h1>
+      <h1 className="font-bold mb-2 border-b pb-2">Update Customer Details</h1>
       <form onSubmit={handleSubmit} className="flex flex-col  gap-8 w-full">
         {
           error &&
@@ -85,7 +111,7 @@ const  UpdateRecord= () => {
             setFormData((prev) => ({
               ...prev,
               meter: e.target.value,
-            }))} name="meter" placeholder="Client meter number" required />
+            }))} name="meter" placeholder="Client meter number" required readOnly />
         </div>
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="w-full sm:w-1/2 flex flex-col">
