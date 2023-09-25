@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { appwriteService } from "@/appwrite/config"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/context/AuthContext"
+import { useAuth } from "@/context/authContext"
 
 
 const Profile = () => {

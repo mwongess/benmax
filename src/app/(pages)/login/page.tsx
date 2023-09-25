@@ -1,7 +1,7 @@
 "use client"
 
 import { appwriteService } from "@/appwrite/config"
-import { useAuth } from "@/context/AuthContext"
+import { useAuth } from "@/context/authContext"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { FormEvent, useState } from "react"

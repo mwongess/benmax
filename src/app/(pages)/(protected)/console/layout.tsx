@@ -3,7 +3,7 @@
 import { appwriteService } from '@/appwrite/config'
 import SideNav from '@/components/navs/SideNav'
 import TopNav from '@/components/navs/TopNav'
-import { AuthProvider } from '@/context/AuthContext'
+import { AuthProvider } from '@/context/authContext'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
