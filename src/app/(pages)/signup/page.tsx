@@ -1,11 +1,29 @@
 "use client"
+import { appwriteService } from '@/appwrite/config'
+import React, { FormEvent, useState } from 'react'
+import { useRouter } from "next/navigation"
 import Image from 'next/image'
-import React, { FormEvent } from 'react'
 
 const Signup = () => {
-  const signup = (e: FormEvent) => {
+  const [error, setError] = useState("")
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: ""
+  })
+
+  const router = useRouter()
+
+  const signup = async (e: FormEvent) => {
     e.preventDefault()
-    console.log("Submitted");
+    try {
+      const userData = await appwriteService.createUserAccount(formData)
+      if (userData) {
+        router.push("/console")
+      }
+    } catch (error: any) {
+      setError(error.message)
+    }
 
   }
   return (
@@ -16,24 +34,42 @@ const Signup = () => {
       </div>
       <form className="flex flex-col justify-center items-center h-full w-full sm:w-1/2 bg-white" onSubmit={signup}>
         <div className="w-[75%]">
+          {
+            error &&
+            <div className="error flex justify-center items-center p-4 my-5 rounded bg-red-400 border border-red-700 text-red-700">
+              <h1>{error}</h1>
+            </div>
+          }
           <div>
             <h1 className="font-bold text-3xl ">Sign up</h1>
           </div>
           <div className="my-5">
             <label htmlFor="username">Username*</label>
-            <input type="text" placeholder="Enter your username" required />
+            <input type="text" value={formData.name} onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                name: e.target.value,
+              }))} placeholder="Enter your username" required />
           </div>
           <div className="mb-5">
-            <label htmlFor="username">Phone*</label>
-            <input type="text" placeholder="Enter your phone" required />
+            <label htmlFor="username">Email*</label>
+            <input type="email" value={formData.email} onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                email: e.target.value,
+              }))} placeholder="Enter your email" required />
           </div>
           <div>
             <label htmlFor="password">Password*</label>
-            <input type="password" placeholder="Enter your password" required />
+            <input type="password" value={formData.password} onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                password: e.target.value,
+              }))} placeholder="Enter your password" required />
           </div>
           <button className="text-white bg-blue-500 p-2 rounded w-full border border-none mt-6" type="submit">Signup</button>
+          <p></p>
         </div>
-
       </form>
     </div>
   )

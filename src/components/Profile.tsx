@@ -1,18 +1,15 @@
+"use client"
+
 import {
-    Cloud,
     CreditCard,
-    Github,
-    Keyboard,
     LifeBuoy,
     LogOut,
     Mail,
     MessageSquare,
-    Plus,
     PlusCircle,
     Settings,
     User,
     UserPlus,
-    Users,
 } from "lucide-react"
 
 import {
@@ -29,8 +26,16 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { appwriteService } from "@/appwrite/config"
+import { useRouter } from "next/navigation"
+
 
 const Profile = () => {
+    const router = useRouter()
+    const logout = () => {
+        appwriteService.logout()
+        router.push('/login')
+    }
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -92,7 +97,7 @@ const Profile = () => {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                     <LogOut className="mr-2 h-4 w-4 text-red-400" />
-                    <span className="text-red-400">Log out</span>
+                    <span className="text-red-400" onClick={logout}>Log out</span>
                     <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                 </DropdownMenuItem>
             </DropdownMenuContent>

@@ -1,12 +1,28 @@
 "use client"
 
+import { appwriteService } from "@/appwrite/config"
 import Image from "next/image"
-import { FormEvent } from "react"
+import { useRouter } from "next/navigation"
+import { FormEvent, useState } from "react"
 
 const page = () => {
-  const login = (e: FormEvent) => {
+  const [error, setError] = useState("")
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  })
+  const router = useRouter()
+
+  const login = async (e: FormEvent) => {
     e.preventDefault()
-    console.log("Submitted");
+    try {
+      const session = await appwriteService.login(formData)
+      if (session) {
+        router.push("/console")
+      }
+    } catch (error: any) {
+      setError(error.message)
+    }
 
   }
   return (
@@ -17,18 +33,32 @@ const page = () => {
       </div>
       <form className="flex flex-col justify-center items-center h-full w-full sm:w-1/2 bg-white" onSubmit={login}>
         <div className="w-[75%]">
+          {
+            error &&
+            <div className="error flex justify-center items-center p-4 my-5 rounded bg-red-400 border border-red-700 text-red-700">
+              <h1 className="font-bold">{error}</h1>
+            </div>
+          }
           <div>
             <h1 className="font-bold text-3xl ">Sign in</h1>
           </div>
 
           <div className="my-5">
-            <label htmlFor="username">Username*</label>
-            <input type="text" placeholder="Enter your username" />
+            <label htmlFor="username">Email*</label>
+            <input type="email" value={formData.email} onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                email: e.target.value,
+              }))} placeholder="Enter your email" />
           </div>
 
           <div>
             <label htmlFor="password">Password*</label>
-            <input type="password" placeholder="Enter your password" />
+            <input type="password" value={formData.password} onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                password: e.target.value,
+              }))} placeholder="Enter your password" />
           </div>
           <button className="text-white bg-blue-500 p-2 rounded w-full border-none mt-6" type="submit">Login</button>
         </div>
