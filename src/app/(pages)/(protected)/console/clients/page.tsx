@@ -8,14 +8,14 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { smsEndpoint } from '@/app/utils/smsEndpoint'
 
-const Records = () => {
+const Clients = () => {
   const [error, setError] = useState('')
   const [data, setData] = useState<Models.Document[]>([])
 
 
   useEffect(() => {
     fetchClients()
-    const unsubscribe = appwriteClient.subscribe(`databases.${config.appwriteDatabaseId}.collections.${config.appwriteCollectionId}.documents`, (response: any) => {
+    const unsubscribe = appwriteClient.subscribe(`databases.${config.appwriteDatabaseId}.collections.${config.appwriteClientsCollectionId}.documents`, (response: any) => {
 
       if (response.events.includes("databases.*.collections.*.documents.*.create")) {
         setData((prevState: any) => [...prevState, response.payload])
@@ -40,38 +40,16 @@ const Records = () => {
     }
   }
 
-  const alertCustomer = async (id: string) => {
-
-    try {
-      const customerDetails = data.find((document) => document.$id == id)
-      const options = {
-        to: customerDetails?.phone,
-        message: `Hello , ${customerDetails?.name}.Your recent bill for meter ${customerDetails?.meter} is ready for payment
-       Consumed Units: ${customerDetails?.consumedUnits}
-       Total Bill:  ${customerDetails?.totalBill} KES
-       Paid:  ${customerDetails?.paid} KES
-       Balance:  ${customerDetails?.balance} KES
-
-       Regards, Benmax 0722588147.
-         `
-      }
-      const response = await axios.post(smsEndpoint, options, { headers: { 'Content-Type': 'application/json' } })
-    } catch (error) {
-      console.error(error)
-    }
-
-  }
-
   return (
     <div >
       <div className='flex justify-between items-center border-b pb-2'>
         <h1 className='font-bold '>Clients</h1>
       </div>
       <div>
-        <ClientsTable data={data} alertCustomer={alertCustomer} />
+        <ClientsTable data={data} />
       </div>
     </div>
   )
 }
 
-export default Records
+export default Clients

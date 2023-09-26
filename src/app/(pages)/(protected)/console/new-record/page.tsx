@@ -15,7 +15,7 @@ const NewRecord = () => {
     finalReading: "",
   })
   const router = useRouter()
-  const costPerUnit = 30
+  const costPerUnit = 120
   const totalBill = consumedUnits * costPerUnit
 
   useEffect(() => {

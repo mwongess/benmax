@@ -41,7 +41,7 @@ import { appwriteService } from "@/appwrite/config";
 import { FaCopy, FaRegBell, FaUserEdit } from "react-icons/fa";
 
 
-export function ClientsTable({ data,alertCustomer }: any) {
+export function ClientsTable({ data}: any) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -168,12 +168,7 @@ export function ClientsTable({ data,alertCustomer }: any) {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" >
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>
-                                <p onClick={()=> alertCustomer(client.$id)} className="flex items-center gap-2 text-base cursor-pointer">
-                                    <FaRegBell />
-                                    Alert Customer
-                                </p>
-                            </DropdownMenuItem>
+                            
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 onClick={() => navigator.clipboard.writeText(client.phone)}
