@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { smsEndpoint } from '@/app/utils/smsEndpoint'
 
-const Records = () => {
+const  UserMonthlyUsage = () => {
   const [error, setError] = useState('')
   const [data, setData] = useState<Models.Document[]>([])
 
@@ -74,4 +74,4 @@ const Records = () => {
   )
 }
 
-export default Records
+export default UserMonthlyUsage

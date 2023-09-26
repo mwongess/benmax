@@ -9,47 +9,47 @@ import axios from 'axios'
 import { smsEndpoint } from '@/app/utils/smsEndpoint'
 
 const Clients = () => {
-  const [error, setError] = useState('')
-  const [data, setData] = useState<Models.Document[]>([])
+    const [error, setError] = useState('')
+    const [data, setData] = useState<Models.Document[]>([])
 
 
-  useEffect(() => {
-    fetchClients()
-    const unsubscribe = appwriteClient.subscribe(`databases.${config.appwriteDatabaseId}.collections.${config.appwriteClientsCollectionId}.documents`, (response: any) => {
+    useEffect(() => {
+        fetchClients()
+        const unsubscribe = appwriteClient.subscribe(`databases.${config.appwriteDatabaseId}.collections.${config.appwriteClientsCollectionId}.documents`, (response: any) => {
 
-      if (response.events.includes("databases.*.collections.*.documents.*.create")) {
-        setData((prevState: any) => [...prevState, response.payload])
-      }
+            if (response.events.includes("databases.*.collections.*.documents.*.create")) {
+                setData((prevState: any) => [...prevState, response.payload])
+            }
 
-      if (response.events.includes("databases.*.collections.*.documents.*.delete")) {
-        setData((prevState: any[]) => prevState.filter(client => client.$id !== response.payload.$id))
-      }
-    });
+            if (response.events.includes("databases.*.collections.*.documents.*.delete")) {
+                setData((prevState: any[]) => prevState.filter(client => client.$id !== response.payload.$id))
+            }
+        });
 
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+        return () => {
+            unsubscribe();
+        };
+    }, []);
 
-  const fetchClients = async () => {
-    try {
-      const { documents } = await appwriteService.getClients()
-      setData(documents)
-    } catch (error: any) {
-      setError(error.message)
+    const fetchClients = async () => {
+        try {
+            const { documents } = await appwriteService.getClients()
+            setData(documents)
+        } catch (error: any) {
+            setError(error.message)
+        }
     }
-  }
 
-  return (
-    <div >
-      <div className='flex justify-between items-center border-b pb-2'>
-        <h1 className='font-bold '>Clients</h1>
-      </div>
-      <div>
-        <ClientsTable data={data} />
-      </div>
-    </div>
-  )
+    return (
+        <div >
+            <div className='flex justify-between items-center border-b pb-2'>
+                <h1 className='font-bold '>Clients</h1>
+            </div>
+            <div>
+                <ClientsTable data={data} />
+            </div>
+        </div>
+    )
 }
 
 export default Clients

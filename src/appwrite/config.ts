@@ -8,7 +8,7 @@ const {
   appwriteUrl: ENDPOINT,
   appwriteProjectId: PROJECT_ID,
   appwriteDatabaseId: DATABASE_ID,
-  appwriteCollectionId: COLLECTION_ID,
+  appwriteClientsCollectionId: CLIENTS_COLLECTION_ID,
 } = config;
 
 appwriteClient.setEndpoint(ENDPOINT).setProject(PROJECT_ID);
@@ -71,18 +71,32 @@ export class AppwriteService {
 
   async getClients() {
     try {
-      const clients = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
+      const clients = await databases.listDocuments(
+        DATABASE_ID,
+        CLIENTS_COLLECTION_ID
+      );
       return clients;
     } catch (error) {
       throw error;
     }
   }
-
+  async getClient(DOCUMENT_ID: string) {
+    try {
+      const client = await databases.getDocument(
+        DATABASE_ID,
+        CLIENTS_COLLECTION_ID,
+        DOCUMENT_ID
+      );
+      return client
+    } catch (error) {
+      throw error;
+    }
+  }
   async createClient(data: any) {
     try {
       const client = await databases.createDocument(
         DATABASE_ID,
-        COLLECTION_ID,
+        CLIENTS_COLLECTION_ID,
         ID.unique(),
         data
       );
@@ -96,7 +110,7 @@ export class AppwriteService {
     try {
       const updatedClient = await databases.updateDocument(
         DATABASE_ID,
-        COLLECTION_ID,
+        CLIENTS_COLLECTION_ID,
         DOCUMENT_ID,
         data
       );
@@ -110,7 +124,7 @@ export class AppwriteService {
     try {
       const deleted = await databases.deleteDocument(
         DATABASE_ID,
-        COLLECTION_ID,
+        CLIENTS_COLLECTION_ID,
         DOCUMENT_ID
       );
       return deleted;
