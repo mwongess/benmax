@@ -41,20 +41,13 @@ const Records = () => {
   }
 
   const alertCustomer = async (id: string) => {
-    const customerDetails = data.find((document) => document.$id == id)
-    const response = await axios.post('https://api.mobitechtechnologies.com/sms/sendsms', {
-      "mobile": customerDetails?.phone,
-      "response_type": "json",
-      "sender_name": "23107",
-      "service_id": 0,
-      "message": "Hello"
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        "h_api_key": "1280e11578b357bad225b671cb7118feee1e7539ef42bb45388e2b962a7f8277",
-      }
-    })
-    console.log(response);
+    
+    try {
+      const customerDetails = data.find((document) => document.$id == id)
+    } catch (error) {
+      console.error(error)
+    }
+
   }
 
   return (
