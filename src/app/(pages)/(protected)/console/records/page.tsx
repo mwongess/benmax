@@ -6,6 +6,7 @@ import config from '@/config/conf'
 import { Models } from 'appwrite'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { smsEndpoint } from '@/app/utils/smsEndpoint'
 
 const Records = () => {
   const [error, setError] = useState('')
@@ -34,16 +35,20 @@ const Records = () => {
     try {
       const { documents } = await appwriteService.getClients()
       setData(documents)
-      console.log(documents);
     } catch (error: any) {
       setError(error.message)
     }
   }
 
   const alertCustomer = async (id: string) => {
-    
+
     try {
       const customerDetails = data.find((document) => document.$id == id)
+      const options = {
+        to: customerDetails?.phone,
+        message: `Hello , ${customerDetails?.name}.You bill is ${customerDetails?.totalBill}`
+      }
+      const response = await axios.post(smsEndpoint, options, { headers: { 'Content-Type': 'application/json' } })
     } catch (error) {
       console.error(error)
     }

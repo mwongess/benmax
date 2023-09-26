@@ -1,0 +1,1 @@
+export const smsEndpoint: string = "https://send-sms-723k.onrender.com/message" 
