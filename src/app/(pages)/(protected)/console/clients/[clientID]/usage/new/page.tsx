@@ -82,7 +82,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                         <input type="number" value={formData.initialReading} onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
-                                initialReading: e.target.value,
+                                initialReading: Number(e.target.value),
                             }))} name="initialReading"
                             placeholder="Meter Initial Reading" />
                     </div>
@@ -91,14 +91,14 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                         <input type="number" value={formData.finalReading} onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
-                                finalReading: e.target.value,
+                                finalReading: Number(e.target.value),
                             }))} name="Meter finalReading" placeholder="Meter Final Reading" required />
                     </div>
                 </div>
                 <div className="w-full flex flex-col">
                     <label htmlFor="">Client ID</label>
                     <input type="text" value={clientID} onChange={(e) =>
-                        setFormData((prev) => ({
+                        setFormData((prev: any) => ({
                             ...prev,
                             clientID: e.target.value,
                         }))} name="meter" placeholder="Client ID" required readOnly />
@@ -107,7 +107,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                     <div className="w-full sm:w-1/2 flex flex-col">
                         <label htmlFor="">Billing Month</label>
                         <input type="text" onChange={(e) =>
-                            setFormData((prev) => ({
+                            setFormData((prev: any) => ({
                                 ...prev,
                                 month: e.target.value,
                             }))} min={1} name="month" value={formData.month} placeholder="Billing Month" required />
@@ -115,7 +115,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                     <div className="w-full sm:w-1/2 flex flex-col">
                         <label htmlFor="">Amount Paid</label>
                         <input type="number" onChange={(e) =>
-                            setFormData((prev) => ({
+                            setFormData((prev: any) => ({
                                 ...prev,
                                 paid: e.target.value,
                             }))} value={formData.paid} name="paid" placeholder="Amount Paid" required />
