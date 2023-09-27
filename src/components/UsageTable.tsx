@@ -221,6 +221,12 @@ export function UsageTable({ data }: any) {
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
                             <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                <p className="flex items-center gap-2 text-base cursor-pointer">
+                                    <FaRegBell />
+                                    Alert Customer
+                                </p>
+                            </DropdownMenuItem>
                             <DropdownMenuItem
                                 onClick={() => navigator.clipboard.writeText(client.clientID)}
                             >
@@ -271,9 +277,9 @@ export function UsageTable({ data }: any) {
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter Monthly Usage..."
-                    value={(table.getColumn("phone")?.getFilterValue() as string) ?? ""}
+                    value={(table.getColumn("month")?.getFilterValue() as string) ?? ""}
                     onChange={(event: any) =>
-                        table.getColumn("phone")?.setFilterValue(event.target.value)
+                        table.getColumn("month")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm rounded-lg"
                 />

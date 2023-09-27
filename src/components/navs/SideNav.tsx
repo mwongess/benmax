@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { FaPlusSquare, FaTable } from "react-icons/fa";
 import { AiOutlineDashboard } from "react-icons/ai";
+import {RiFileList2Line } from "react-icons/ri";
 
 const SideNav = () => {
     return (
@@ -17,6 +18,9 @@ const SideNav = () => {
                 </div>
                 <div className="link">
                     <Link className="flex items-center gap-3 " href="/console/clients/new"><span><p className="text-2xl"><FaPlusSquare /></p></span>New Client</Link>
+                </div>
+                <div className="link">
+                    <Link className="flex items-center gap-3 " href="/console/clients/new"><span><p className="text-2xl"><RiFileList2Line /></p></span>Alltime Usage</Link>
                 </div>
             </div>
 
