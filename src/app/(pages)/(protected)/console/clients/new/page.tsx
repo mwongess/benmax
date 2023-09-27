@@ -29,7 +29,7 @@ const NewClient = ({ params }: { params: { id: string } }) => {
                 phone: "",
                 meter: "",
             })
-            router.push('/console/records')
+            router.push('/console/clients')
         } catch (error: any) {
             setError(error.message)
         }
@@ -70,7 +70,7 @@ const NewClient = ({ params }: { params: { id: string } }) => {
                         setFormData((prev) => ({
                             ...prev,
                             meter: e.target.value,
-                        }))} name="meter" placeholder="Client meter number" required readOnly />
+                        }))} name="meter" placeholder="Client meter number" required/>
                 </div>
 
                 <div>

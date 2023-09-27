@@ -1,6 +1,6 @@
 const ClientsLoader = () => {
     return (
-        <div>loading</div>
+        <div>Loading...</div>
     )
 }
 

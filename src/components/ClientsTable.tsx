@@ -38,7 +38,8 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { appwriteService } from "@/appwrite/config";
-import { FaCopy, FaRegBell, FaUserEdit } from "react-icons/fa";
+import { FaCopy, FaUserEdit } from "react-icons/fa";
+import { AiOutlineEye } from "react-icons/ai";
 
 
 export function ClientsTable({ data }: any) {
@@ -96,9 +97,7 @@ export function ClientsTable({ data }: any) {
             accessorKey: "meter",
             header: ({ column }) => {
                 return (
-                    <p
-                        className=" flex"
-                    >
+                    <p className=" flex justify-end">
                         Meter
                     </p>
                 )
@@ -129,19 +128,23 @@ export function ClientsTable({ data }: any) {
                             >
                                 <p className="flex items-center gap-2 text-base cursor-pointer" >
                                     <FaCopy />
-                                    Copy Phone
+                                    Copy Client Phone
                                 </p>
                             </DropdownMenuItem>
-
+                            <DropdownMenuItem>
+                                <p onClick={() => { router.push(`/console/clients/${client.$id}/usage`) }} className="flex items-center gap-2  text-base cursor-pointer">
+                                    <AiOutlineEye />
+                                View Client Details</p>
+                            </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <p onClick={() => { router.push(`/console/records/update/${client.$id}`) }} className="text-green-900 flex items-center gap-2  text-base cursor-pointer">
                                     <FaUserEdit />
-                                    Update Customer</p>
+                                    Update Details</p>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <p className="flex items-center gap-2 text-red-900 text-base cursor-pointer" onClick={() => { appwriteService.deleteClient(client.$id) }}>
                                     <BiTrash />
-                                    Delete Customer
+                                    Delete This Client
                                 </p>
                             </DropdownMenuItem>
                         </DropdownMenuContent>

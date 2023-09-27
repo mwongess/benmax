@@ -46,7 +46,7 @@ const Clients = () => {
 
 
     const goToCreateNew = () => {
-      router.push('clients/new')
+      router.push('/console/clients/new')
     }
     return (
         <div >
