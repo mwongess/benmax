@@ -29,7 +29,7 @@ const ConsoleLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <AuthProvider value={{ user, authStatus, setAuthStatus }}>
       {
-        user &&
+        // user &&
         <div className='flex min-h-screen'>
           <div className='hidden sm:block left w-[15%] border-r p-2'>
             <SideNav />

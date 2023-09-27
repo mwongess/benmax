@@ -7,11 +7,15 @@ import { Models } from 'appwrite'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { smsEndpoint } from '@/app/utils/smsEndpoint'
+import { FaRegPlusSquare } from 'react-icons/fa'
+import { useRouter } from 'next/navigation'
+
 
 const Clients = () => {
     const [error, setError] = useState('')
     const [data, setData] = useState<Models.Document[]>([])
-
+    
+    const router = useRouter()
 
     useEffect(() => {
         fetchClients()
@@ -40,10 +44,15 @@ const Clients = () => {
         }
     }
 
+
+    const goToCreateNew = () => {
+      router.push('clients/new')
+    }
     return (
         <div >
             <div className='flex justify-between items-center border-b pb-2'>
-                <h1 className='font-bold '>Clients</h1>
+                <h1 className='font-bold'>All Clients</h1>
+                <button onClick={goToCreateNew} className='flex gap-2 items-center bg-blue-600 rounded-full py-2 px-4'><FaRegPlusSquare/> New Client</button>
             </div>
             <div>
                 <ClientsTable data={data} />

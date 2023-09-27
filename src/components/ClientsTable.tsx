@@ -41,7 +41,7 @@ import { appwriteService } from "@/appwrite/config";
 import { FaCopy, FaRegBell, FaUserEdit } from "react-icons/fa";
 
 
-export function ClientsTable({ data}: any) {
+export function ClientsTable({ data }: any) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -98,60 +98,14 @@ export function ClientsTable({ data}: any) {
                 return (
                     <p
                         className=" flex"
-                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
                         Meter
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
                     </p>
                 )
             },
-            cell: ({ row }) => <div className="lowercase">{row.getValue("meter")}</div>,
-        },
-        {
-            accessorKey: "initialReading",
-            header: ({ column }) => {
-                return (
-                    <p
-                        className="flex"
-                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                    >
-                        Initial Reading
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </p>
-                )
-            },
-            cell: ({ row }) => <div className="lowercase">{row.getValue("initialReading")}</div>,
-        },
-        {
-            accessorKey: "finalReading",
-            header: ({ column }) => {
-                return (
-                    <p
-                        className="flex"
-                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                    >
-                        Final Reading
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </p>
-                )
-            },
-            cell: ({ row }) => <div className="lowercase">{row.getValue("finalReading")}</div>,
+            cell: ({ row }) => <div className="lowercase text-right" >{row.getValue("meter")}</div>,
         },
 
-        {
-            accessorKey: "totalBill",
-            header: () => <div className="text-right">Total Bill</div>,
-            cell: ({ row }) => {
-                const amount = parseFloat(row.getValue("totalBill"))
-
-                const formatted = new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "ksh",
-                }).format(amount)
-
-                return <div className="text-right font-medium">{formatted}</div>
-            },
-        },
         {
             id: "actions",
             enableHiding: false,
@@ -168,7 +122,7 @@ export function ClientsTable({ data}: any) {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" >
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            
+
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 onClick={() => navigator.clipboard.writeText(client.phone)}
@@ -219,10 +173,10 @@ export function ClientsTable({ data}: any) {
         <div className="w-full">
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Filter phone numbers..."
-                    value={(table.getColumn("phone")?.getFilterValue() as string) ?? ""}
+                    placeholder="Search Client Name..."
+                    value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
                     onChange={(event: any) =>
-                        table.getColumn("phone")?.setFilterValue(event.target.value)
+                        table.getColumn("name")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm rounded-lg"
                 />

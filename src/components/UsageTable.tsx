@@ -191,25 +191,9 @@ export function UsageTable({ data }: any) {
         },
         {
             accessorKey: "cumulativeTotal",
-            header: ({ column }) => {
-                return (
-                    <p
-                        className="flex"
-                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                    >
-                        Cumulative Total
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </p>
-                )
-            },
-            cell: ({ row }) => <div className="lowercase">{row.getValue("caForwardcumulativeTotal")}</div>,
-        },
-
-        {
-            accessorKey: "totalBill",
-            header: () => <div className="text-right">Total Bill</div>,
+            header: () => <div className="text-right">Cumulative Total</div>,
             cell: ({ row }) => {
-                const amount = parseFloat(row.getValue("totalBill"))
+                const amount = parseFloat(row.getValue("cumulativeTotal"))
 
                 const formatted = new Intl.NumberFormat("en-US", {
                     style: "currency",
