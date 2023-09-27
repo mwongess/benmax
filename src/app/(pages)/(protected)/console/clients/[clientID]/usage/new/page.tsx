@@ -2,50 +2,36 @@
 
 import { appwriteService } from "@/appwrite/config"
 import { Models } from "appwrite"
-import { useParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
 import { FaFolderPlus } from "react-icons/fa"
 
-const NewMonthUsage = ({ params }: { params: { id: string } }) => {
+const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
     const [data, setData] = useState<Models.Document[]>([])
     const [error, setError] = useState('')
     const [consumedUnits, setConsumedUnits] = useState(0)
+    const { clientID } = params
+
     const [formData, setFormData] = useState({
-        name: "",
-        phone: "",
-        meter: "",
-        initialReading: "",
-        finalReading: "",
+        initialReading: 0,
+        finalReading: 0,
+        clientID: clientID,
+        month: "",
+        paid: 0,
+        consumedUnits: 0,
+        caForward: 0,
+        cumulativeTotal: 0
     })
-    const { id } = params
     const router = useRouter()
+
     const costPerUnit = 30
-    const totalBill = consumedUnits * costPerUnit
-    useEffect(() => {
-        fetchClients()
-    }, [])
+    const total = consumedUnits * costPerUnit
+    const balance = 0
+    const caForward = 0
+    const cumulativeTotal = 0
 
-    useEffect(() => {
-        if (data[0]) {
 
-            setFormData({
-                name: data[0].name,
-                phone: data[0].phone,
-                meter: data[0].meter,
-                initialReading: data[0].initialReading,
-                finalReading: data[0].finalReading,
-            })
-        }
-    }, [data])
 
-    const fetchClients = async () => {
-        try {
-            const { documents } = await appwriteService.getClients()
-            setData(documents.filter((document) => document.$id === id))
-        } catch (error: any) {
-            setError(error.message)
-        }
-    }
     useEffect(() => {
         if (Number(formData.finalReading) >= Number(formData.initialReading)) {
             setConsumedUnits(Number(formData.finalReading) - Number(formData.initialReading))
@@ -60,18 +46,21 @@ const NewMonthUsage = ({ params }: { params: { id: string } }) => {
             setError('Final reading cannot be less than initial reading!')
             return
         }
-        const data = { ...formData, consumedUnits, totalBill }
+        const data = { ...formData, consumedUnits, total, balance, caForward, cumulativeTotal }
         try {
-            appwriteService.updateClient(id, data)
+            appwriteService.createUsage(data)
             // clear form
             setFormData({
-                name: "",
-                phone: "",
-                meter: "",
-                initialReading: "",
-                finalReading: "",
+                initialReading: 0,
+                finalReading: 0,
+                clientID: " ",
+                month: "",
+                paid: 0,
+                consumedUnits: 0,
+                caForward: 0,
+                cumulativeTotal: 0
             })
-            router.push('/console/records')
+            // router.push('/console/records')
         } catch (error: any) {
             setError(error.message)
         }
@@ -90,28 +79,28 @@ const NewMonthUsage = ({ params }: { params: { id: string } }) => {
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="w-full sm:w-1/2 flex flex-col">
                         <label htmlFor="">Initial Reading</label>
-                        <input type="text" value={formData.name} onChange={(e) =>
+                        <input type="number" value={formData.initialReading} onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
-                                name: e.target.value,
-                            }))} name="name"
+                                initialReading: e.target.value,
+                            }))} name="initialReading"
                             placeholder="Meter Initial Reading" />
                     </div>
                     <div className="w-full sm:w-1/2 flex flex-col">
                         <label htmlFor="">Final Reading</label>
-                        <input type="text" value={formData.phone} onChange={(e) =>
+                        <input type="number" value={formData.finalReading} onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
-                                phone: e.target.value,
-                            }))} name="phone" placeholder="Meter Final Reading" required />
+                                finalReading: e.target.value,
+                            }))} name="Meter finalReading" placeholder="Meter Final Reading" required />
                     </div>
                 </div>
                 <div className="w-full flex flex-col">
                     <label htmlFor="">Client ID</label>
-                    <input type="text" value={formData.meter} onChange={(e) =>
+                    <input type="text" value={clientID} onChange={(e) =>
                         setFormData((prev) => ({
                             ...prev,
-                            meter: e.target.value,
+                            clientID: e.target.value,
                         }))} name="meter" placeholder="Client ID" required readOnly />
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -120,27 +109,27 @@ const NewMonthUsage = ({ params }: { params: { id: string } }) => {
                         <input type="text" onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
-                                initialReading: e.target.value,
-                            }))} min={1} name="initialReading" value={formData.initialReading} placeholder="Billing Month" required />
+                                month: e.target.value,
+                            }))} min={1} name="month" value={formData.month} placeholder="Billing Month" required />
                     </div>
                     <div className="w-full sm:w-1/2 flex flex-col">
                         <label htmlFor="">Amount Paid</label>
                         <input type="number" onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
-                                finalReading: e.target.value,
-                            }))} value={formData.finalReading} min={formData.initialReading} name="finalReading" placeholder="Amount Paid" required />
+                                paid: e.target.value,
+                            }))} value={formData.paid} name="paid" placeholder="Amount Paid" required />
                     </div>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 font-bold">
                     <p className="border-2 border-blue-800 p-2 rounded">Consumed Units : {consumedUnits}  </p>
                     <p className="border-2 border-blue-800 p-2 rounded">Cost per unit : Ksh {costPerUnit} </p>
-                    <p className="border-2 border-blue-800 p-2 rounded">Total Bill : Ksh {totalBill}</p>
-                    <p className="border-2 border-blue-800 p-2 rounded">Balance : Ksh {totalBill}</p>
+                    <p className="border-2 border-blue-800 p-2 rounded">Total Bill : Ksh {total}</p>
+                    <p className="border-2 border-blue-800 p-2 rounded">Balance : Ksh {balance}</p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 font-bold">
-                    <p className="border-2 border-blue-800 p-2 rounded">Carried Forward : {consumedUnits}  </p>
-                    <p className="border-2 border-blue-800 p-2 rounded">Cumulative Bill : {consumedUnits}  </p>
+                    <p className="border-2 border-blue-800 p-2 rounded">Carried Forward : {caForward}  </p>
+                    <p className="border-2 border-blue-800 p-2 rounded">Cumulative Bill : {cumulativeTotal}  </p>
                 </div>
                 <div>
                     <button type="submit" className="flex items-center gap-3 font-bold  justify-center bg-green-500 rounded p-2 w-1/4"><FaFolderPlus /> Save</button>

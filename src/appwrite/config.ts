@@ -9,6 +9,7 @@ const {
   appwriteProjectId: PROJECT_ID,
   appwriteDatabaseId: DATABASE_ID,
   appwriteClientsCollectionId: CLIENTS_COLLECTION_ID,
+  appwriteUsageCollectionId: USAGE_COLLECTION_ID,
 } = config;
 
 appwriteClient.setEndpoint(ENDPOINT).setProject(PROJECT_ID);
@@ -80,6 +81,17 @@ export class AppwriteService {
       throw error;
     }
   }
+  async getUsage() {
+    try {
+      const clients = await databases.listDocuments(
+        DATABASE_ID,
+        USAGE_COLLECTION_ID
+      );
+      return clients;
+    } catch (error) {
+      throw error;
+    }
+  }
   async getClient(DOCUMENT_ID: string) {
     try {
       const client = await databases.getDocument(
@@ -87,7 +99,7 @@ export class AppwriteService {
         CLIENTS_COLLECTION_ID,
         DOCUMENT_ID
       );
-      return client
+      return client;
     } catch (error) {
       throw error;
     }
@@ -97,6 +109,19 @@ export class AppwriteService {
       const client = await databases.createDocument(
         DATABASE_ID,
         CLIENTS_COLLECTION_ID,
+        ID.unique(),
+        data
+      );
+      return client;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async createUsage(data: any) {
+    try {
+      const client = await databases.createDocument(
+        DATABASE_ID,
+        USAGE_COLLECTION_ID,
         ID.unique(),
         data
       );
@@ -119,12 +144,37 @@ export class AppwriteService {
       throw error;
     }
   }
+  async updateUsage(DOCUMENT_ID: string, data: any) {
+    try {
+      const updatedClient = await databases.updateDocument(
+        DATABASE_ID,
+        USAGE_COLLECTION_ID,
+        DOCUMENT_ID,
+        data
+      );
+      return updatedClient;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   async deleteClient(DOCUMENT_ID: string) {
     try {
       const deleted = await databases.deleteDocument(
         DATABASE_ID,
         CLIENTS_COLLECTION_ID,
+        DOCUMENT_ID
+      );
+      return deleted;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async deleteUsage(DOCUMENT_ID: string) {
+    try {
+      const deleted = await databases.deleteDocument(
+        DATABASE_ID,
+        USAGE_COLLECTION_ID,
         DOCUMENT_ID
       );
       return deleted;

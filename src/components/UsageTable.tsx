@@ -222,23 +222,23 @@ export function UsageTable({ data }: any) {
 
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
-                                onClick={() => navigator.clipboard.writeText(client.phone)}
+                                onClick={() => navigator.clipboard.writeText(client.clientID)}
                             >
                                 <p className="flex items-center gap-2 text-base cursor-pointer" >
                                     <FaCopy />
-                                    Copy Phone
+                                    Copy clientID
                                 </p>
                             </DropdownMenuItem>
 
                             <DropdownMenuItem>
-                                <p onClick={() => { router.push(`/console/records/update/${client.$id}`) }} className="text-green-900 flex items-center gap-2  text-base cursor-pointer">
+                                <p onClick={() => { router.push(`usage/${client.$id}/update`) }} className="text-green-900 flex items-center gap-2  text-base cursor-pointer">
                                     <FaUserEdit />
-                                    Update Customer</p>
+                                    Update Usage</p>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
                                 <p className="flex items-center gap-2 text-red-900 text-base cursor-pointer" onClick={() => { appwriteService.deleteClient(client.$id) }}>
                                     <BiTrash />
-                                    Delete Customer
+                                    Delete Usage
                                 </p>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -270,7 +270,7 @@ export function UsageTable({ data }: any) {
         <div className="w-full">
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Filter phone numbers..."
+                    placeholder="Filter Monthly Usage..."
                     value={(table.getColumn("phone")?.getFilterValue() as string) ?? ""}
                     onChange={(event: any) =>
                         table.getColumn("phone")?.setFilterValue(event.target.value)
@@ -347,7 +347,7 @@ export function UsageTable({ data }: any) {
                                     colSpan={columns.length}
                                     className="h-24 text-center"
                                 >
-                                    No Clients Found.
+                                    No Data Found.
                                 </TableCell>
                             </TableRow>
                         )}
