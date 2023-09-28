@@ -2,13 +2,11 @@
 
 import { appwriteService } from "@/appwrite/config"
 import { useToast } from "@/components/ui/use-toast"
-import { Models } from "appwrite"
 import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
-import { FaFolderPlus } from "react-icons/fa"
+import { AiOutlineEdit } from "react-icons/ai"
 
 const UpdateClient = ({ params }: { params: { clientID: string } }) => {
-  const [client, setClient] = useState<Models.Document[]>([])
   const [error, setError] = useState('')
   const [formData, setFormData] = useState({
     name: "",
@@ -43,23 +41,14 @@ const UpdateClient = ({ params }: { params: { clientID: string } }) => {
 
         const response = await appwriteService.updateClient(clientID, formData)
         // clear form
-        
 
         if (response) {
-          console.log(response);
-          
           toast({
             title: "Client Details Updated Successfuly ",
             description: `${response.$updatedAt}`,
           })
-          // router.push('/console/clients')
         }
 
-        // setFormData({
-        //   name: "",
-        //   phone: "",
-        //   meter: "",
-        // })
       } else {
         setError('Phone Number must start with +254')
       }
@@ -107,7 +96,7 @@ const UpdateClient = ({ params }: { params: { clientID: string } }) => {
         </div>
 
         <div>
-          <button type="submit" className="flex items-center gap-3 font-bold  justify-center bg-green-500 rounded p-2 w-1/4"><FaFolderPlus /> Update</button>
+          <button type="submit" className="flex items-center gap-3 font-bold  justify-center bg-green-500 rounded p-2 w-1/4"><AiOutlineEdit /> Update</button>
         </div>
       </form>
     </div>

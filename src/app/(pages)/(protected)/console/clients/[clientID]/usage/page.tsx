@@ -6,7 +6,7 @@ import config from '@/config/conf'
 import { Models } from 'appwrite'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { FaPlus, FaRegPlusSquare } from 'react-icons/fa'
+import { FaRegPlusSquare } from 'react-icons/fa'
 
 const ClientsUsage = ({ params }: { params: { clientID: string } }) => {
   const [error, setError] = useState('')
@@ -18,7 +18,7 @@ const ClientsUsage = ({ params }: { params: { clientID: string } }) => {
 
   useEffect(() => {
       fetchClients()
-      const unsubscribe = appwriteClient.subscribe(`databases.${config.appwriteDatabaseId}.collections.${config.appwriteClientsCollectionId}.documents`, (response: any) => {
+      const unsubscribe = appwriteClient.subscribe(`databases.${config.appwriteDatabaseId}.collections.${config.appwriteUsageCollectionId}.documents`, (response: any) => {
 
           if (response.events.includes("databases.*.collections.*.documents.*.create")) {
               setData((prevState: any) => [response.payload, ...prevState])

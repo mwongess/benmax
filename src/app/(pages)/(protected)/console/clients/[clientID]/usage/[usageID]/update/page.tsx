@@ -2,7 +2,7 @@
 
 import { appwriteService } from "@/appwrite/config"
 import { Models } from "appwrite"
-import { useParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
 
 const UpdateUserUsage = ({ params }: { params: { id: string } }) => {

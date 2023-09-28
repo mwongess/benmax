@@ -242,7 +242,7 @@ export function UsageTable({ data }: any) {
                                     Update Usage</p>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                                <p className="flex items-center gap-2 text-red-900 text-base cursor-pointer" onClick={() => { appwriteService.deleteClient(client.$id) }}>
+                                <p className="flex items-center gap-2 text-red-900 text-base cursor-pointer" onClick={() => { appwriteService.deleteUsage(client.$id) }}>
                                     <BiTrash />
                                     Delete Usage
                                 </p>

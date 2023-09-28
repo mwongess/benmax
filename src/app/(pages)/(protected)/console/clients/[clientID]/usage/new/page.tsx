@@ -1,13 +1,12 @@
 "use client"
 
 import { appwriteService } from "@/appwrite/config"
+import { toast } from "@/components/ui/use-toast"
 import { Models } from "appwrite"
-import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
 import { FaFolderPlus } from "react-icons/fa"
 
 const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
-    const [data, setData] = useState<Models.Document[]>([])
     const [error, setError] = useState('')
     const [consumedUnits, setConsumedUnits] = useState(0)
     const { clientID } = params
@@ -22,7 +21,6 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
         caForward: 0,
         cumulativeTotal: 0
     })
-    const router = useRouter()
 
     const costPerUnit = 30
     const total = consumedUnits * costPerUnit
@@ -40,7 +38,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
         }
     }, [formData])
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
         if (formData.finalReading < formData.initialReading) {
             setError('Final reading cannot be less than initial reading!')
@@ -48,7 +46,15 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
         }
         const data = { ...formData, consumedUnits, total, balance, caForward, cumulativeTotal }
         try {
-            appwriteService.createUsage(data)
+            const response = await appwriteService.createUsage(data)
+            console.log(response);
+
+            if (response) {
+                toast({
+                    title: "Record has been saved successfuly.",
+                    description: `${response.$createdAt}`,
+                })
+            }
             // clear form
             setFormData({
                 initialReading: 0,
