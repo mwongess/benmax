@@ -42,7 +42,7 @@ import { FaCopy, FaUserEdit } from "react-icons/fa";
 import { AiOutlineEye } from "react-icons/ai";
 
 
-export function ClientsTable({ data }: any) {
+export function ClientsTable({ data ,deleteClient}: any) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -137,12 +137,12 @@ export function ClientsTable({ data }: any) {
                                 View Client Details</p>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                                <p onClick={() => { router.push(`/console/records/update/${client.$id}`) }} className="text-green-900 flex items-center gap-2  text-base cursor-pointer">
+                                <p onClick={() => { router.push(`/console/clients/${client.$id}/update`) }} className="text-green-900 flex items-center gap-2  text-base cursor-pointer">
                                     <FaUserEdit />
                                     Update Details</p>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                                <p className="flex items-center gap-2 text-red-900 text-base cursor-pointer" onClick={() => { appwriteService.deleteClient(client.$id) }}>
+                                <p  className="flex items-center gap-2 text-red-900 text-base cursor-pointer" onClick={() => { appwriteService.deleteClient(client.$id) }}>
                                     <BiTrash />
                                     Delete This Client
                                 </p>

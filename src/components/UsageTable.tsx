@@ -70,13 +70,13 @@ export function UsageTable({ data }: any) {
             enableSorting: false,
             enableHiding: false,
         },
-        {
-            accessorKey: "clientID",
-            header: "Client ID",
-            cell: ({ row }) => (
-                <div className="capitalize">{row.getValue("clientID")}</div>
-            ),
-        },
+        // {
+        //     accessorKey: "clientID",
+        //     header: "Client ID",
+        //     cell: ({ row }) => (
+        //         <div className="capitalize">{row.getValue("clientID")}</div>
+        //     ),
+        // },
         {
             accessorKey: "month",
             header: "Billing Month",

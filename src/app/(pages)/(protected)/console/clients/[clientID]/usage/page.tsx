@@ -21,7 +21,7 @@ const ClientsUsage = ({ params }: { params: { clientID: string } }) => {
       const unsubscribe = appwriteClient.subscribe(`databases.${config.appwriteDatabaseId}.collections.${config.appwriteClientsCollectionId}.documents`, (response: any) => {
 
           if (response.events.includes("databases.*.collections.*.documents.*.create")) {
-              setData((prevState: any) => [...prevState, response.payload])
+              setData((prevState: any) => [response.payload, ...prevState])
           }
 
           if (response.events.includes("databases.*.collections.*.documents.*.delete")) {

@@ -9,53 +9,35 @@ import axios from 'axios'
 import { smsEndpoint } from '@/app/utils/smsEndpoint'
 import { FaRegPlusSquare } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/context/authContext'
 
 
 const Clients = () => {
     const [error, setError] = useState('')
-    const [data, setData] = useState<Models.Document[]>([])
-    
+
+    const { clients } = useAuth()
+
     const router = useRouter()
 
-    useEffect(() => {
-        fetchClients()
-        const unsubscribe = appwriteClient.subscribe(`databases.${config.appwriteDatabaseId}.collections.${config.appwriteClientsCollectionId}.documents`, (response: any) => {
+    const goToCreateNew = () => {
+        router.push('/console/clients/new')
+    }
 
-            if (response.events.includes("databases.*.collections.*.documents.*.create")) {
-                setData((prevState: any) => [...prevState, response.payload])
-            }
-
-            if (response.events.includes("databases.*.collections.*.documents.*.delete")) {
-                setData((prevState: any[]) => prevState.filter(client => client.$id !== response.payload.$id))
-            }
-        });
-
-        return () => {
-            unsubscribe();
-        };
-    }, []);
-
-    const fetchClients = async () => {
+    const deleteClient = async (clientID: string) => {
         try {
-            const { documents } = await appwriteService.getClients()
-            setData(documents)
+            const res = await appwriteService.deleteClient(clientID)
         } catch (error: any) {
             setError(error.message)
         }
-    }
-
-
-    const goToCreateNew = () => {
-      router.push('/console/clients/new')
     }
     return (
         <div >
             <div className='flex justify-between items-center border-b pb-2'>
                 <h1 className='font-bold'>All Clients</h1>
-                <button onClick={goToCreateNew} className='flex gap-2 items-center bg-blue-600 rounded-full py-2 px-4'><FaRegPlusSquare/> New Client</button>
+                <button onClick={goToCreateNew} className='flex gap-2 items-center bg-blue-600 rounded-full py-2 px-4'><FaRegPlusSquare /> New Client</button>
             </div>
             <div>
-                <ClientsTable data={data} />
+                <ClientsTable data={clients} deleteClient={deleteClient}/>
             </div>
         </div>
     )

@@ -1,5 +1,5 @@
 import { CreateUserAccount, LoginUserAccount } from "@/types/types";
-import { Client, Account, ID, Databases } from "appwrite";
+import { Client, Account, ID, Databases, Query } from "appwrite";
 import config from "@/config/conf";
 
 export const appwriteClient = new Client();
@@ -74,7 +74,8 @@ export class AppwriteService {
     try {
       const clients = await databases.listDocuments(
         DATABASE_ID,
-        CLIENTS_COLLECTION_ID
+        CLIENTS_COLLECTION_ID,
+        [Query.orderDesc("$createdAt")]
       );
       return clients;
     } catch (error) {
@@ -85,7 +86,8 @@ export class AppwriteService {
     try {
       const clients = await databases.listDocuments(
         DATABASE_ID,
-        USAGE_COLLECTION_ID
+        USAGE_COLLECTION_ID,
+        [Query.orderDesc("$createdAt")]
       );
       return clients;
     } catch (error) {
