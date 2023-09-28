@@ -1,9 +1,11 @@
 "use client"
 
+import { smsEndpoint } from '@/app/utils/smsEndpoint'
 import { appwriteClient, appwriteService } from '@/appwrite/config'
 import { UsageTable } from '@/components/UsageTable'
 import config from '@/config/conf'
 import { Models } from 'appwrite'
+import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { FaRegPlusSquare } from 'react-icons/fa'
@@ -12,6 +14,7 @@ const ClientsUsage = ({ params }: { params: { clientID: string } }) => {
   const [error, setError] = useState('')
   const [clientName, setClientName] = useState('')
   const [loading, setLoading] = useState(false)
+  const [clientDetails, setClientDetails] = useState<any>({})
 
   const { clientID } = params
   const [data, setData] = useState<Models.Document[]>([])
@@ -41,6 +44,8 @@ const ClientsUsage = ({ params }: { params: { clientID: string } }) => {
       setLoading(true)
       const client = await appwriteService.getClient(clientID)
       if (client) {
+        setClientDetails(client)
+
         setClientName(client.name)
         setLoading(false)
       }
@@ -60,6 +65,21 @@ const ClientsUsage = ({ params }: { params: { clientID: string } }) => {
     } catch (error: any) {
       setError(error.message)
     }
+  }
+  const alertCustomer = async (usageDetails: any) => {
+
+    try {
+
+      const options = {
+        to: clientDetails.phone,
+        message: `Hello, ${clientDetails.name}.Your ${usageDetails.month} bill for meter ${clientDetails.meter} is ready for payment Consumed Units: ${usageDetails.consumedUnits} Total Bill: ${usageDetails.total} KES. Paid: ${usageDetails.paid} KES. Balance:  ${usageDetails.cumulativeTotal} KES. Regards, Benmax 0722588147.
+         `
+      }
+      const response = await axios.post(smsEndpoint, options, { headers: { 'Content-Type': 'application/json' } })
+    } catch (error) {
+      console.error(error)
+    }
+
   }
   const goToCreateNew = () => {
     router.push('usage/new')
@@ -89,7 +109,7 @@ const ClientsUsage = ({ params }: { params: { clientID: string } }) => {
         <h1 className='font-bold'>All Months Usage For:  <span className='text-lg underline'>{clientName}</span></h1>
         <button onClick={goToCreateNew} className='flex gap-2 items-center bg-blue-600 rounded-full py-2 px-4'><FaRegPlusSquare /> New Month Record</button>
       </div>
-      <UsageTable data={data} />
+      <UsageTable data={data} alertCustomer={alertCustomer} />
     </div>
   )
 }

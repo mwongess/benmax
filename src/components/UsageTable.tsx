@@ -41,7 +41,7 @@ import { appwriteService } from "@/appwrite/config";
 import { FaCopy, FaRegBell, FaUserEdit } from "react-icons/fa";
 
 
-export function UsageTable({ data }: any) {
+export function UsageTable({ data ,alertCustomer}: any) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -222,7 +222,7 @@ export function UsageTable({ data }: any) {
 
                             <DropdownMenuSeparator />
                             <DropdownMenuItem>
-                                <p className="flex items-center gap-2 text-base cursor-pointer">
+                                <p onClick={()=>alertCustomer(client)} className="flex items-center gap-2 text-base cursor-pointer">
                                     <FaRegBell />
                                     Alert Customer
                                 </p>
