@@ -26,9 +26,11 @@ const ConsoleLayout = ({ children }: { children: React.ReactNode }) => {
     const unsubscribe = appwriteClient.subscribe(`databases.${config.appwriteDatabaseId}.collections.${config.appwriteClientsCollectionId}.documents`, (response: any) => {
 
       if (response.events.includes("databases.*.collections.*.documents.*.create")) {
-        setClients((prevState: any) => [response.payload,  ...prevState, ])
+        setClients((prevState: any) => [response.payload, ...prevState,])
       }
-
+      if (response.events.includes("databases.*.collections.*.documents.*.update")) {
+        fetchClients()
+      }
       if (response.events.includes("databases.*.collections.*.documents.*.delete")) {
         setClients((prevState: any[]) => prevState.filter(client => client.$id !== response.payload.$id))
       }

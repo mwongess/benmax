@@ -1,76 +1,68 @@
 "use client"
 
 import { appwriteService } from "@/appwrite/config"
+import { useToast } from "@/components/ui/use-toast"
 import { Models } from "appwrite"
-import { useParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
+import { FaFolderPlus } from "react-icons/fa"
 
-const UpdateClient = ({ params }: { params: { id: string } }) => {
-  const [data, setData] = useState<Models.Document[]>([])
+const UpdateClient = ({ params }: { params: { clientID: string } }) => {
+  const [client, setClient] = useState<Models.Document[]>([])
   const [error, setError] = useState('')
-  const [consumedUnits, setConsumedUnits] = useState(0)
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     meter: "",
-    initialReading: "",
-    finalReading: "",
   })
-  const { id } = params
+  const { toast } = useToast()
+  const { clientID } = params
   const router = useRouter()
-  const costPerUnit = 30
-  const totalBill = consumedUnits * costPerUnit
   useEffect(() => {
     fetchClients()
   }, [])
 
-  useEffect(() => {
-    if (data[0]) {
-
-      setFormData({
-        name: data[0].name,
-        phone: data[0].phone,
-        meter: data[0].meter,
-        initialReading: data[0].initialReading,
-        finalReading: data[0].finalReading,
-      })
-    }
-  }, [data])
-  
   const fetchClients = async () => {
     try {
-      const { documents } = await appwriteService.getClients()
-      setData(documents.filter((document) => document.$id === id))
+      const client = await appwriteService.getClient(clientID)
+      setFormData({
+        name: client.name,
+        phone: client.phone,
+        meter: client.meter
+      })
     } catch (error: any) {
       setError(error.message)
     }
   }
-  useEffect(() => {
-    if (Number(formData.finalReading) >= Number(formData.initialReading)) {
-      setConsumedUnits(Number(formData.finalReading) - Number(formData.initialReading))
-    } else {
-      setConsumedUnits(0)
-    }
-  }, [formData])
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (formData.finalReading < formData.initialReading) {
-      setError('Final reading cannot be less than initial reading!')
-      return
-    }
-    const data = { ...formData, consumedUnits, totalBill }
+
     try {
-      appwriteService.updateClient(id, data)
-      // clear form
-      setFormData({
-        name: "",
-        phone: "",
-        meter: "",
-        initialReading: "",
-        finalReading: "",
-      })
-      router.push('/console/records')
+      if (formData.phone.startsWith("+254")) {
+
+        const response = await appwriteService.updateClient(clientID, formData)
+        // clear form
+        
+
+        if (response) {
+          console.log(response);
+          
+          toast({
+            title: "Client Details Updated Successfuly ",
+            description: `${response.$updatedAt}`,
+          })
+          // router.push('/console/clients')
+        }
+
+        // setFormData({
+        //   name: "",
+        //   phone: "",
+        //   meter: "",
+        // })
+      } else {
+        setError('Phone Number must start with +254')
+      }
     } catch (error: any) {
       setError(error.message)
     }
@@ -78,11 +70,11 @@ const UpdateClient = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="new-client">
-      <h1 className="font-bold mb-2 border-b pb-2">Update Client Details</h1>
+      <h1 className="font-bold mb-2 border-b pb-2">Update Existing Client</h1>
       <form onSubmit={handleSubmit} className="flex flex-col  gap-8 w-full">
         {
           error &&
-          <div className="my-2 border-red-700 bg-red-400 text-red-700 rounded text-center p-4 font-bold">
+          <div className="my-2 border-red-700 bg-red-200 text-red-700 rounded text-center p-4 font-bold">
             <h1>{error}</h1>
           </div>
         }
@@ -102,7 +94,7 @@ const UpdateClient = ({ params }: { params: { id: string } }) => {
               setFormData((prev) => ({
                 ...prev,
                 phone: e.target.value,
-              }))} name="phone" placeholder="Client phone number" required />
+              }))} name="phone" placeholder="Client phone number (+254)" required />
           </div>
         </div>
         <div className="w-full flex flex-col">
@@ -111,11 +103,11 @@ const UpdateClient = ({ params }: { params: { id: string } }) => {
             setFormData((prev) => ({
               ...prev,
               meter: e.target.value,
-            }))} name="meter" placeholder="Client meter number" required readOnly />
+            }))} name="meter" placeholder="Client meter number" readOnly required />
         </div>
-        
+
         <div>
-          <button type="submit" className="bg-green-500 rounded p-2 w-1/4">Update</button>
+          <button type="submit" className="flex items-center gap-3 font-bold  justify-center bg-green-500 rounded p-2 w-1/4"><FaFolderPlus /> Update</button>
         </div>
       </form>
     </div>
