@@ -9,30 +9,46 @@ import { FaFolderPlus } from "react-icons/fa"
 const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
     const [error, setError] = useState('')
     const [consumedUnits, setConsumedUnits] = useState(0)
+    const [initialReading, setInitialReading] = useState(0)
+    const [caForward, setCaForward] = useState(0)
     const { clientID } = params
 
     const [formData, setFormData] = useState({
-        initialReading: 0,
         finalReading: 0,
         clientID: clientID,
         month: "",
         paid: 0,
         consumedUnits: 0,
-        caForward: 0,
         cumulativeTotal: 0
     })
 
     const costPerUnit = 30
     const total = consumedUnits * costPerUnit
-    const balance = 0
-    const caForward = 0
-    const cumulativeTotal = 0
-
-
+    const balance = total - formData.paid 
+    const cumulativeTotal = balance + caForward
 
     useEffect(() => {
-        if (Number(formData.finalReading) >= Number(formData.initialReading)) {
-            setConsumedUnits(Number(formData.finalReading) - Number(formData.initialReading))
+        getCarForward()
+    }, [])
+
+    const getCarForward = async () => {
+        try {
+            const { documents } = await appwriteService.getUsage()
+            const thisUserData = documents.filter((document) => document.clientID === clientID)
+            if (thisUserData[0]) {
+                setCaForward(thisUserData[0].cumulativeTotal)
+                setInitialReading(thisUserData[0].initialReading)
+            } else {
+                setCaForward(0)
+            }
+        } catch (error) {
+
+        }
+    }
+
+    useEffect(() => {
+        if (Number(formData.finalReading) >= Number(initialReading)) {
+            setConsumedUnits(Number(formData.finalReading) - Number(initialReading))
         } else {
             setConsumedUnits(0)
         }
@@ -40,7 +56,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
-        if (formData.finalReading < formData.initialReading) {
+        if (formData.finalReading < initialReading) {
             setError('Final reading cannot be less than initial reading!')
             return
         }
@@ -57,13 +73,11 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
             }
             // clear form
             setFormData({
-                initialReading: 0,
                 finalReading: 0,
                 clientID: " ",
                 month: "",
                 paid: 0,
                 consumedUnits: 0,
-                caForward: 0,
                 cumulativeTotal: 0
             })
             // router.push('/console/records')
@@ -75,8 +89,8 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
     return (
         <div className="new-client">
             <div className="flex justify-between  mb-2 border-b  pb-2">
-            <h1 className="font-bold ">New Month Usage</h1>
-            {/* <button className="flex items-center gap-3 font-bold  justify-center bg-slate-400 rounded p-2 w-[15%]">Go Back</button> */}
+                <h1 className="font-bold ">New Month Usage</h1>
+                {/* <button className="flex items-center gap-3 font-bold  justify-center bg-slate-400 rounded p-2 w-[15%]">Go Back</button> */}
 
             </div>
             <form onSubmit={handleSubmit} className="flex flex-col  gap-8 w-full">
@@ -89,11 +103,11 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="w-full sm:w-1/2 flex flex-col">
                         <label htmlFor="">Initial Reading</label>
-                        <input type="number" value={formData.initialReading} onChange={(e) =>
+                        <input type="number" value={initialReading} onChange={(e) =>
                             setFormData((prev) => ({
                                 ...prev,
                                 initialReading: Number(e.target.value),
-                            }))} name="initialReading"
+                            }))} name="initialReading" readOnly disabled
                             placeholder="Meter Initial Reading" />
                     </div>
                     <div className="w-full sm:w-1/2 flex flex-col">
@@ -111,7 +125,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                         setFormData((prev: any) => ({
                             ...prev,
                             clientID: e.target.value,
-                        }))} name="meter" placeholder="Client ID" required readOnly />
+                        }))} name="meter" placeholder="Client ID" required readOnly disabled />
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="w-full sm:w-1/2 flex flex-col">

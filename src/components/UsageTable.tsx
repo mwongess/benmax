@@ -142,7 +142,7 @@ export function UsageTable({ data }: any) {
                     </p>
                 )
             },
-            cell: ({ row }) => <div className="lowercase">{row.getValue("finalReading")}</div>,
+            cell: ({ row }) => <div className="lowercase">{row.getValue("total")}</div>,
         },
         {
             accessorKey: "paid",

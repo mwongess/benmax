@@ -107,6 +107,18 @@ export class AppwriteService {
       throw error;
     }
   }
+  async getClientUsage(DOCUMENT_ID: string) {
+    try {
+      const clientUsage = await databases.getDocument(
+        DATABASE_ID,
+        USAGE_COLLECTION_ID,
+        DOCUMENT_ID
+      );
+      return clientUsage;
+    } catch (error) {
+      throw error;
+    }
+  }
   async createClient(data: any) {
     try {
       const client = await databases.createDocument(

@@ -4,43 +4,47 @@ import { appwriteService } from "@/appwrite/config"
 import { Models } from "appwrite"
 import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
+import { FaFolderPlus } from "react-icons/fa"
 
-const UpdateUserUsage = ({ params }: { params: { id: string } }) => {
+const UpdateUserUsage = ({ params }: { params: any }) => {
   const [data, setData] = useState<Models.Document[]>([])
   const [error, setError] = useState('')
   const [consumedUnits, setConsumedUnits] = useState(0)
   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    meter: "",
-    initialReading: "",
-    finalReading: "",
+    initialReading: 0,
+    finalReading: 0,
+    clientID: "",
+    month: "",
+    paid: 0,
+    consumedUnits: 0,
+    caForward: 0,
+    cumulativeTotal: 0
   })
-  const { id } = params
-  const router = useRouter()
+  const { usageID } = params
+
+
   const costPerUnit = 30
-  const totalBill = consumedUnits * costPerUnit
+  const total = consumedUnits * costPerUnit
+  const balance = total - formData.paid
+  const cumulativeTotal = balance + formData.caForward
+
   useEffect(() => {
-    fetchClients()
+    fetchUsage()
   }, [])
 
-  useEffect(() => {
-    if (data[0]) {
-
-      setFormData({
-        name: data[0].name,
-        phone: data[0].phone,
-        meter: data[0].meter,
-        initialReading: data[0].initialReading,
-        finalReading: data[0].finalReading,
-      })
-    }
-  }, [data])
-  
-  const fetchClients = async () => {
+  const fetchUsage = async () => {
     try {
-      const { documents } = await appwriteService.getClients()
-      setData(documents.filter((document) => document.$id === id))
+      const usage = await appwriteService.getClientUsage(usageID)
+      setFormData({
+        initialReading: usage.initialReading,
+        finalReading: usage.finalReading,
+        clientID: usage.clientID,
+        month: usage.month,
+        paid: usage.paid,
+        consumedUnits: usage.consumedUnits,
+        caForward: usage.caForward,
+        cumulativeTotal: usage.cumulativeTotal
+      })
     } catch (error: any) {
       setError(error.message)
     }
@@ -59,18 +63,20 @@ const UpdateUserUsage = ({ params }: { params: { id: string } }) => {
       setError('Final reading cannot be less than initial reading!')
       return
     }
-    const data = { ...formData, consumedUnits, totalBill }
+    const data = { ...formData, consumedUnits, total, balance, cumulativeTotal }
     try {
-      appwriteService.updateClient(id, data)
+      appwriteService.updateUsage(usageID, data)
       // clear form
       setFormData({
-        name: "",
-        phone: "",
-        meter: "",
-        initialReading: "",
-        finalReading: "",
+        initialReading: 0,
+        finalReading: 0,
+        clientID: " ",
+        month: "",
+        paid: 0,
+        consumedUnits: 0,
+        caForward: 0,
+        cumulativeTotal: 0
       })
-      router.push('/console/records')
     } catch (error: any) {
       setError(error.message)
     }
@@ -89,60 +95,60 @@ const UpdateUserUsage = ({ params }: { params: { id: string } }) => {
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="w-full sm:w-1/2 flex flex-col">
             <label htmlFor="">Initial Reading</label>
-            <input type="text" value={formData.name} onChange={(e) =>
+            <input type="number" value={formData.initialReading} onChange={(e) =>
               setFormData((prev) => ({
                 ...prev,
-                name: e.target.value,
-              }))} name="name"
+                initialReading: Number(e.target.value),
+              }))} name="initialReading"
               placeholder="Meter Initial Reading" />
           </div>
           <div className="w-full sm:w-1/2 flex flex-col">
             <label htmlFor="">Final Reading</label>
-            <input type="text" value={formData.phone} onChange={(e) =>
+            <input type="number" value={formData.finalReading} onChange={(e) =>
               setFormData((prev) => ({
                 ...prev,
-                phone: e.target.value,
-              }))} name="phone" placeholder="Meter Final Reading" required />
+                finalReading: Number(e.target.value),
+              }))} name="Meter finalReading" placeholder="Meter Final Reading" required />
           </div>
         </div>
         <div className="w-full flex flex-col">
           <label htmlFor="">Client ID</label>
-          <input type="text" value={formData.meter} onChange={(e) =>
-            setFormData((prev) => ({
+          <input type="text" value={formData.clientID} onChange={(e) =>
+            setFormData((prev: any) => ({
               ...prev,
-              meter: e.target.value,
-            }))} name="meter" placeholder="Client ID" required readOnly />
+              clientID: e.target.value,
+            }))} name="meter" placeholder="Client ID" required readOnly disabled />
         </div>
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="w-full sm:w-1/2 flex flex-col">
             <label htmlFor="">Billing Month</label>
             <input type="text" onChange={(e) =>
-              setFormData((prev) => ({
+              setFormData((prev: any) => ({
                 ...prev,
-                initialReading: e.target.value,
-              }))} min={1} name="initialReading" value={formData.initialReading} placeholder="Billing Month" required />
+                month: e.target.value,
+              }))} min={1} name="month" value={formData.month} placeholder="Billing Month" required />
           </div>
           <div className="w-full sm:w-1/2 flex flex-col">
             <label htmlFor="">Amount Paid</label>
             <input type="number" onChange={(e) =>
-              setFormData((prev) => ({
+              setFormData((prev: any) => ({
                 ...prev,
-                finalReading: e.target.value,
-              }))} value={formData.finalReading} min={formData.initialReading} name="finalReading" placeholder="Amount Paid" required />
+                paid: e.target.value,
+              }))} value={formData.paid} name="paid" placeholder="Amount Paid" required />
           </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-4 font-bold">
           <p className="border-2 border-blue-800 p-2 rounded">Consumed Units : {consumedUnits}  </p>
           <p className="border-2 border-blue-800 p-2 rounded">Cost per unit : Ksh {costPerUnit} </p>
-          <p className="border-2 border-blue-800 p-2 rounded">Total Bill : Ksh {totalBill}</p>
-          <p className="border-2 border-blue-800 p-2 rounded">Balance : Ksh {totalBill}</p>
+          <p className="border-2 border-blue-800 p-2 rounded">Total Bill : Ksh {total}</p>
+          <p className="border-2 border-blue-800 p-2 rounded">Balance : Ksh {balance}</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-4 font-bold">
-          <p className="border-2 border-blue-800 p-2 rounded">Carried Forward : {consumedUnits}  </p>
-          <p className="border-2 border-blue-800 p-2 rounded">Cumulative Bill : {consumedUnits}  </p>
+          <p className="border-2 border-blue-800 p-2 rounded">Carried Forward : {formData.caForward}  </p>
+          <p className="border-2 border-blue-800 p-2 rounded">Cumulative Bill : {cumulativeTotal}  </p>
         </div>
-        <div>
-          <button type="submit" className="bg-green-500 rounded p-2 w-1/4">Update</button>
+        <div className="flex  gap-4">
+          <button type="submit" className="flex items-center gap-3 font-bold  justify-center bg-green-500 rounded p-2  w-1/4"><FaFolderPlus /> Update</button>
         </div>
       </form>
     </div>
