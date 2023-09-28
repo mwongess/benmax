@@ -39,9 +39,10 @@ import {
 } from "@/components/ui/table"
 import { appwriteService } from "@/appwrite/config";
 import { FaCopy, FaRegBell, FaUserEdit } from "react-icons/fa";
+import { AiOutlineEye } from "react-icons/ai";
 
 
-export function MonthlyUsageTable({ data }: any) {
+export function AllTimeUsageTable({ data }: any) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -142,7 +143,7 @@ export function MonthlyUsageTable({ data }: any) {
                     </p>
                 )
             },
-            cell: ({ row }) => <div className="lowercase">{row.getValue("finalReading")}</div>,
+            cell: ({ row }) => <div className="lowercase">{row.getValue("total")}</div>,
         },
         {
             accessorKey: "paid",
@@ -191,25 +192,9 @@ export function MonthlyUsageTable({ data }: any) {
         },
         {
             accessorKey: "cumulativeTotal",
-            header: ({ column }) => {
-                return (
-                    <p
-                        className="flex"
-                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                    >
-                        Cumulative Total
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </p>
-                )
-            },
-            cell: ({ row }) => <div className="lowercase">{row.getValue("caForwardcumulativeTotal")}</div>,
-        },
-
-        {
-            accessorKey: "totalBill",
-            header: () => <div className="text-right">Total Bill</div>,
+            header: () => <div className="text-right">Cumulative Total</div>,
             cell: ({ row }) => {
-                const amount = parseFloat(row.getValue("totalBill"))
+                const amount = parseFloat(row.getValue("cumulativeTotal"))
 
                 const formatted = new Intl.NumberFormat("en-US", {
                     style: "currency",
@@ -237,25 +222,10 @@ export function MonthlyUsageTable({ data }: any) {
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                                onClick={() => navigator.clipboard.writeText(client.phone)}
-                            >
-                                <p className="flex items-center gap-2 text-base cursor-pointer" >
-                                    <FaCopy />
-                                    Copy Phone
-                                </p>
-                            </DropdownMenuItem>
-
                             <DropdownMenuItem>
-                                <p onClick={() => { router.push(`/console/records/update/${client.$id}`) }} className="text-green-900 flex items-center gap-2  text-base cursor-pointer">
-                                    <FaUserEdit />
-                                    Update Customer</p>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <p className="flex items-center gap-2 text-red-900 text-base cursor-pointer" onClick={() => { appwriteService.deleteClient(client.$id) }}>
-                                    <BiTrash />
-                                    Delete Customer
-                                </p>
+                                <p onClick={() => { router.push(`/console/clients/${client.clientID}/usage`) }} className="flex items-center gap-2  text-base cursor-pointer">
+                                    <AiOutlineEye />
+                                    View Client Details</p>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -286,10 +256,10 @@ export function MonthlyUsageTable({ data }: any) {
         <div className="w-full">
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Filter phone numbers..."
-                    value={(table.getColumn("phone")?.getFilterValue() as string) ?? ""}
+                    placeholder="Filter Data By Month..."
+                    value={(table.getColumn("month")?.getFilterValue() as string) ?? ""}
                     onChange={(event: any) =>
-                        table.getColumn("phone")?.setFilterValue(event.target.value)
+                        table.getColumn("month")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm rounded-lg"
                 />

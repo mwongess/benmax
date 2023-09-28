@@ -20,7 +20,7 @@ const SideNav = () => {
                     <Link className="flex items-center gap-3 " href="/console/clients/new"><span><p className="text-2xl"><FaPlusSquare /></p></span>New Client</Link>
                 </div>
                 <div className="link">
-                    <Link className="flex items-center gap-3 " href="/console/clients/new"><span><p className="text-2xl"><RiFileList2Line /></p></span>Alltime Usage</Link>
+                    <Link className="flex items-center gap-3 " href="/console/alltime-usage"><span><p className="text-2xl"><RiFileList2Line /></p></span>Alltime Usage</Link>
                 </div>
             </div>
 
