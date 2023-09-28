@@ -74,7 +74,11 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
 
     return (
         <div className="new-client">
-            <h1 className="font-bold mb-2 border-b pb-2">New Month Usage</h1>
+            <div className="flex justify-between  mb-2 border-b  pb-2">
+            <h1 className="font-bold ">New Month Usage</h1>
+            {/* <button className="flex items-center gap-3 font-bold  justify-center bg-slate-400 rounded p-2 w-[15%]">Go Back</button> */}
+
+            </div>
             <form onSubmit={handleSubmit} className="flex flex-col  gap-8 w-full">
                 {
                     error &&
@@ -137,8 +141,8 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                     <p className="border-2 border-blue-800 p-2 rounded">Carried Forward : {caForward}  </p>
                     <p className="border-2 border-blue-800 p-2 rounded">Cumulative Bill : {cumulativeTotal}  </p>
                 </div>
-                <div>
-                    <button type="submit" className="flex items-center gap-3 font-bold  justify-center bg-green-500 rounded p-2 w-1/4"><FaFolderPlus /> Save</button>
+                <div className="flex  gap-4">
+                    <button type="submit" className="flex items-center gap-3 font-bold  justify-center bg-green-500 rounded p-2  w-1/4"><FaFolderPlus /> Save</button>
                 </div>
             </form>
         </div>

@@ -1,6 +1,7 @@
 import { CreateUserAccount, LoginUserAccount } from "@/types/types";
 import { Client, Account, ID, Databases, Query } from "appwrite";
 import config from "@/config/conf";
+import { toast } from "@/components/ui/use-toast";
 
 export const appwriteClient = new Client();
 
@@ -179,7 +180,11 @@ export class AppwriteService {
         USAGE_COLLECTION_ID,
         DOCUMENT_ID
       );
-      return deleted;
+      if (deleted) {
+        toast({
+            title: "Record Has Been Deleted Successfuly.",
+        })
+    }
     } catch (error) {
       throw error;
     }
