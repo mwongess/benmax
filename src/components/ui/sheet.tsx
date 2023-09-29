@@ -6,7 +6,6 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { HiOutlineMenuAlt3 } from "react-icons/hi"
 
 const Sheet = SheetPrimitive.Root
 
@@ -71,8 +70,8 @@ const SheetContent = React.forwardRef<
       {...props}
     >
       {children}
-      <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-      <p className="text-2xl"><HiOutlineMenuAlt3 /></p>
+      <SheetPrimitive.Close className="absolute right-4 pt-3 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+      <p className="text-2xl font-bold">X</p>
       </SheetPrimitive.Close>
     </SheetPrimitive.Content>
   </SheetPortal>
