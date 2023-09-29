@@ -4,7 +4,7 @@ import Clients from "./clients/page"
 const Console = () => {
     return (
         <div>
-            {/* <Summary/> */}
+            <Summary/>
             <Clients/>
         </div>
     )
