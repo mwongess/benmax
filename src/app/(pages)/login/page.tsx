@@ -35,7 +35,7 @@ const Login = () => {
         <h1 className="font-bold text-6xl tracking-wider mb-6">BenmaX is Live</h1>
         <Image className="text-blue-500" src="/cloud.svg" height={150} width={480} alt="projection" />
       </div>
-      <form className="flex flex-col justify-center items-center h-full w-full sm:w-1/2 bg-white" onSubmit={login}>
+      <form className="flex flex-col justify-center items-center h-full w-full sm:w-1/2 bg-white text-black" onSubmit={login}>
         <div className="w-[75%]">
           {
             error &&

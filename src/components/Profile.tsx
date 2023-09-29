@@ -20,7 +20,6 @@ import {
     DropdownMenuLabel,
     DropdownMenuPortal,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
     DropdownMenuSub,
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
@@ -43,37 +42,34 @@ const Profile = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <p className="flex gap-2 items-center cursor-pointer font-bold bg-blue-600 rounded-full px-3 py-1"><FaRegUser/> My Account </p>
+                <p className="flex gap-2 items-center cursor-pointer font-bold bg-blue-600 rounded-full px-3 py-1"><FaRegUser /> My Account </p>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
+            <DropdownMenuContent className="w-56 bg-black rounded border border-gray-300">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
                         <User className="mr-2 h-4 w-4" />
                         <span className="cursor-pointer">Profile</span>
-                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                         <CreditCard className="mr-2 h-4 w-4" />
                         <span className="cursor-pointer">Billing</span>
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                         <Settings className="mr-2 h-4 w-4" />
                         <span className="cursor-pointer">Settings</span>
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuSub>
+                    <DropdownMenuSub >
                         <DropdownMenuSubTrigger>
                             <UserPlus className="mr-2 h-4 w-4" />
                             <span className="cursor-pointer">Invite Clients</span>
                         </DropdownMenuSubTrigger>
                         <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
+                            <DropdownMenuSubContent className="bg-black rounded border border-gray-300">
                                 <DropdownMenuItem>
                                     <Mail className="mr-2 h-4 w-4" />
                                     <span>Email</span>
@@ -81,11 +77,6 @@ const Profile = () => {
                                 <DropdownMenuItem>
                                     <MessageSquare className="mr-2 h-4 w-4" />
                                     <span>Message</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem>
-                                    <PlusCircle className="mr-2 h-4 w-4" />
-                                    <span>More...</span>
                                 </DropdownMenuItem>
                             </DropdownMenuSubContent>
                         </DropdownMenuPortal>
@@ -102,7 +93,6 @@ const Profile = () => {
                 <DropdownMenuItem>
                     <LogOut className="mr-2 h-4 w-4 text-red-400" />
                     <span className="text-red-400 cursor-pointer" onClick={logout}>Log out</span>
-                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>

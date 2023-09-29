@@ -1,13 +1,10 @@
 "use client"
 
 import { appwriteService } from "@/appwrite/config"
-import { Models } from "appwrite"
-import { useRouter } from "next/navigation"
 import { FormEvent, useEffect, useState } from "react"
 import { FaFolderPlus } from "react-icons/fa"
 
 const UpdateUserUsage = ({ params }: { params: any }) => {
-  const [data, setData] = useState<Models.Document[]>([])
   const [error, setError] = useState('')
   const [consumedUnits, setConsumedUnits] = useState(0)
   const [formData, setFormData] = useState({
@@ -22,8 +19,7 @@ const UpdateUserUsage = ({ params }: { params: any }) => {
   })
   const { usageID } = params
 
-
-  const costPerUnit = 30
+  const costPerUnit = Number(process.env.NEXT_PUBLIC_RATE)
   const total = consumedUnits * costPerUnit
   const balance = total - formData.paid
   const cumulativeTotal = balance + formData.caForward
