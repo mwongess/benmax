@@ -29,6 +29,7 @@ import {
 import { appwriteService } from "@/appwrite/config"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/authContext"
+import { FaRegUser } from "react-icons/fa"
 
 
 const Profile = () => {
@@ -42,7 +43,7 @@ const Profile = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <p className="cursor-pointer font-bold bg-blue-600 rounded-full px-3 py-1">My Account</p>
+                <p className="flex gap-2 items-center cursor-pointer font-bold bg-blue-600 rounded-full px-3 py-1"><FaRegUser/> My Account </p>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>

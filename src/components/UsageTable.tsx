@@ -38,11 +38,10 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { appwriteService } from "@/appwrite/config";
-import { FaCopy, FaUserEdit } from "react-icons/fa";
-import { AiOutlineEye } from "react-icons/ai";
+import { FaCopy, FaRegBell, FaUserEdit } from "react-icons/fa";
 
 
-export function ClientsTable({ data ,deleteClient}: any) {
+export function UsageTable({ data ,alertCustomer}: any) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -71,40 +70,139 @@ export function ClientsTable({ data ,deleteClient}: any) {
             enableSorting: false,
             enableHiding: false,
         },
+        // {
+        //     accessorKey: "clientID",
+        //     header: "Client ID",
+        //     cell: ({ row }) => (
+        //         <div className="capitalize">{row.getValue("clientID")}</div>
+        //     ),
+        // },
         {
-            accessorKey: "name",
-            header: "Name",
+            accessorKey: "month",
+            header: "Billing Month",
             cell: ({ row }) => (
-                <div className="capitalize">{row.getValue("name")}</div>
+                <div className="capitalize">{row.getValue("month")}</div>
             ),
         },
         {
-            accessorKey: "phone",
+            accessorKey: "initialReading",
             header: ({ column }) => {
                 return (
                     <p
                         className="flex"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
-                        Phone Number
+                        Initial Reading
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                     </p>
                 )
             },
-            cell: ({ row }) => <div className="lowercase">{row.getValue("phone")}</div>,
+            cell: ({ row }) => <div className="lowercase">{row.getValue("initialReading")}</div>,
         },
         {
-            accessorKey: "meter",
+            accessorKey: "finalReading",
             header: ({ column }) => {
                 return (
-                    <p className=" flex justify-end">
-                        Meter
+                    <p
+                        className=" flex"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Final Reading
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
                     </p>
                 )
             },
-            cell: ({ row }) => <div className="lowercase text-right" >{row.getValue("meter")}</div>,
+            cell: ({ row }) => <div className="lowercase">{row.getValue("finalReading")}</div>,
         },
+        {
+            accessorKey: "consumedUnits",
+            header: ({ column }) => {
+                return (
+                    <p
+                        className="flex"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Consumed Units
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </p>
+                )
+            },
+            cell: ({ row }) => <div className="lowercase">{row.getValue("consumedUnits")}</div>,
+        },
+        {
+            accessorKey: "total",
+            header: ({ column }) => {
+                return (
+                    <p
+                        className="flex"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Total
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </p>
+                )
+            },
+            cell: ({ row }) => <div className="lowercase">{row.getValue("total")}</div>,
+        },
+        {
+            accessorKey: "paid",
+            header: ({ column }) => {
+                return (
+                    <p
+                        className="flex"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Paid
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </p>
+                )
+            },
+            cell: ({ row }) => <div className="lowercase">{row.getValue("paid")}</div>,
+        },
+        {
+            accessorKey: "balance",
+            header: ({ column }) => {
+                return (
+                    <p
+                        className="flex"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Balance
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </p>
+                )
+            },
+            cell: ({ row }) => <div className="lowercase">{row.getValue("balance")}</div>,
+        },
+        {
+            accessorKey: "caForward",
+            header: ({ column }) => {
+                return (
+                    <p
+                        className="flex"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Carried Forward
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </p>
+                )
+            },
+            cell: ({ row }) => <div className="lowercase">{row.getValue("caForward")}</div>,
+        },
+        {
+            accessorKey: "cumulativeTotal",
+            header: () => <div className="text-right">Cumulative Total</div>,
+            cell: ({ row }) => {
+                const amount = parseFloat(row.getValue("cumulativeTotal"))
 
+                const formatted = new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "ksh",
+                }).format(amount)
+
+                return <div className="text-right font-medium">{formatted}</div>
+            },
+        },
         {
             id: "actions",
             enableHiding: false,
@@ -123,28 +221,30 @@ export function ClientsTable({ data ,deleteClient}: any) {
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
                             <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                <p onClick={()=>alertCustomer(client)} className="flex items-center gap-2 text-base cursor-pointer">
+                                    <FaRegBell />
+                                    Alert Customer
+                                </p>
+                            </DropdownMenuItem>
                             <DropdownMenuItem
-                                onClick={() => navigator.clipboard.writeText(client.phone)}
+                                onClick={() => navigator.clipboard.writeText(client.clientID)}
                             >
                                 <p className="flex items-center gap-2 text-base cursor-pointer" >
                                     <FaCopy />
-                                    Copy Client Phone
+                                    Copy clientID
                                 </p>
                             </DropdownMenuItem>
+
                             <DropdownMenuItem>
-                                <p onClick={() => { router.push(`/console/clients/${client.$id}/usage`) }} className="flex items-center gap-2  text-base cursor-pointer">
-                                    <AiOutlineEye />
-                                View Client Details</p>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <p onClick={() => { router.push(`/console/clients/${client.$id}/update`) }} className="text-green-900 flex items-center gap-2  text-base cursor-pointer">
+                                <p onClick={() => { router.push(`usage/${client.$id}/update`) }} className="text-green-900 flex items-center gap-2  text-base cursor-pointer">
                                     <FaUserEdit />
-                                    Update Details</p>
+                                    Update Usage</p>
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                                <p  className="flex items-center gap-2 text-red-900 text-base cursor-pointer" onClick={() => { appwriteService.deleteClient(client.$id) }}>
+                                <p className="flex items-center gap-2 text-red-900 text-base cursor-pointer" onClick={() => { appwriteService.deleteUsage(client.$id) }}>
                                     <BiTrash />
-                                    Delete This Client
+                                    Delete Usage
                                 </p>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -176,10 +276,10 @@ export function ClientsTable({ data ,deleteClient}: any) {
         <div className="w-full">
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Search Client Name..."
-                    value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+                    placeholder="Filter Monthly Usage..."
+                    value={(table.getColumn("month")?.getFilterValue() as string) ?? ""}
                     onChange={(event: any) =>
-                        table.getColumn("name")?.setFilterValue(event.target.value)
+                        table.getColumn("month")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm rounded-lg"
                 />
@@ -253,7 +353,7 @@ export function ClientsTable({ data ,deleteClient}: any) {
                                     colSpan={columns.length}
                                     className="h-24 text-center"
                                 >
-                                    No Clients Found.
+                                    No Data Found.
                                 </TableCell>
                             </TableRow>
                         )}

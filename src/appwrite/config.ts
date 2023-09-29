@@ -1,6 +1,7 @@
 import { CreateUserAccount, LoginUserAccount } from "@/types/types";
-import { Client, Account, ID, Databases } from "appwrite";
+import { Client, Account, ID, Databases, Query } from "appwrite";
 import config from "@/config/conf";
+import { toast } from "@/components/ui/use-toast";
 
 export const appwriteClient = new Client();
 
@@ -8,7 +9,8 @@ const {
   appwriteUrl: ENDPOINT,
   appwriteProjectId: PROJECT_ID,
   appwriteDatabaseId: DATABASE_ID,
-  appwriteCollectionId: COLLECTION_ID,
+  appwriteClientsCollectionId: CLIENTS_COLLECTION_ID,
+  appwriteUsageCollectionId: USAGE_COLLECTION_ID,
 } = config;
 
 appwriteClient.setEndpoint(ENDPOINT).setProject(PROJECT_ID);
@@ -71,18 +73,70 @@ export class AppwriteService {
 
   async getClients() {
     try {
-      const clients = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
+      const clients = await databases.listDocuments(
+        DATABASE_ID,
+        CLIENTS_COLLECTION_ID,
+        [Query.orderDesc("$createdAt")]
+      );
       return clients;
     } catch (error) {
       throw error;
     }
   }
-
+  async getUsage() {
+    try {
+      const clients = await databases.listDocuments(
+        DATABASE_ID,
+        USAGE_COLLECTION_ID,
+        [Query.orderDesc("$createdAt")]
+      );
+      return clients;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getClient(DOCUMENT_ID: string) {
+    try {
+      const client = await databases.getDocument(
+        DATABASE_ID,
+        CLIENTS_COLLECTION_ID,
+        DOCUMENT_ID
+      );
+      return client;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getClientUsage(DOCUMENT_ID: string) {
+    try {
+      const clientUsage = await databases.getDocument(
+        DATABASE_ID,
+        USAGE_COLLECTION_ID,
+        DOCUMENT_ID
+      );
+      return clientUsage;
+    } catch (error) {
+      throw error;
+    }
+  }
   async createClient(data: any) {
     try {
       const client = await databases.createDocument(
         DATABASE_ID,
-        COLLECTION_ID,
+        CLIENTS_COLLECTION_ID,
+        ID.unique(),
+        data
+      );
+      return client;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async createUsage(data: any) {
+    try {
+      const client = await databases.createDocument(
+        DATABASE_ID,
+        USAGE_COLLECTION_ID,
         ID.unique(),
         data
       );
@@ -96,7 +150,20 @@ export class AppwriteService {
     try {
       const updatedClient = await databases.updateDocument(
         DATABASE_ID,
-        COLLECTION_ID,
+        CLIENTS_COLLECTION_ID,
+        DOCUMENT_ID,
+        data
+      );
+      return updatedClient;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async updateUsage(DOCUMENT_ID: string, data: any) {
+    try {
+      const updatedClient = await databases.updateDocument(
+        DATABASE_ID,
+        USAGE_COLLECTION_ID,
         DOCUMENT_ID,
         data
       );
@@ -110,10 +177,26 @@ export class AppwriteService {
     try {
       const deleted = await databases.deleteDocument(
         DATABASE_ID,
-        COLLECTION_ID,
+        CLIENTS_COLLECTION_ID,
         DOCUMENT_ID
       );
       return deleted;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async deleteUsage(DOCUMENT_ID: string) {
+    try {
+      const deleted = await databases.deleteDocument(
+        DATABASE_ID,
+        USAGE_COLLECTION_ID,
+        DOCUMENT_ID
+      );
+      if (deleted) {
+        toast({
+            title: "Record Has Been Deleted Successfuly.",
+        })
+    }
     } catch (error) {
       throw error;
     }
