@@ -11,6 +11,8 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
     const [consumedUnits, setConsumedUnits] = useState(0)
     const [initialReading, setInitialReading] = useState(0)
     const [caForward, setCaForward] = useState(0)
+    const [isDisabled, setIsDisabled] = useState(true)
+
     const { clientID } = params
 
     const [formData, setFormData] = useState({
@@ -40,6 +42,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                 setInitialReading(thisUserData[0].initialReading)
             } else {
                 setCaForward(0)
+                setIsDisabled(false)
             }
         } catch (error) {
 
@@ -52,7 +55,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
         } else {
             setConsumedUnits(0)
         }
-    }, [formData])
+    }, [formData,initialReading])
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
@@ -60,10 +63,9 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
             setError('Final reading cannot be less than initial reading!')
             return
         }
-        const data = { ...formData, consumedUnits, total, balance, caForward, cumulativeTotal }
+        const data = { ...formData, initialReading,consumedUnits, total, balance, caForward, cumulativeTotal }
         try {
             const response = await appwriteService.createUsage(data)
-            console.log(response);
 
             if (response) {
                 toast({
@@ -103,11 +105,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="w-full sm:w-1/2 flex flex-col">
                         <label htmlFor="">Initial Reading</label>
-                        <input type="number" value={initialReading} onChange={(e) =>
-                            setFormData((prev) => ({
-                                ...prev,
-                                initialReading: Number(e.target.value),
-                            }))} name="initialReading" readOnly disabled
+                        <input type="number" value={initialReading} onChange={(e) =>setInitialReading(Number(e.target.value))} name="initialReading"  disabled={isDisabled}
                             placeholder="Meter Initial Reading" />
                     </div>
                     <div className="w-full sm:w-1/2 flex flex-col">
