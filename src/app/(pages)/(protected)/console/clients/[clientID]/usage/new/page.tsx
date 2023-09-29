@@ -24,7 +24,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
         cumulativeTotal: 0
     })
 
-    const costPerUnit = 30
+    const costPerUnit = Number(process.env.NEXT_PUBLIC_RATE)
     const total = consumedUnits * costPerUnit
     const balance = total - formData.paid
     const cumulativeTotal = balance + caForward
