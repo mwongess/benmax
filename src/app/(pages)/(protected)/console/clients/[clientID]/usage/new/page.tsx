@@ -26,7 +26,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
 
     const costPerUnit = 30
     const total = consumedUnits * costPerUnit
-    const balance = total - formData.paid 
+    const balance = total - formData.paid
     const cumulativeTotal = balance + caForward
 
     useEffect(() => {
@@ -55,7 +55,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
         } else {
             setConsumedUnits(0)
         }
-    }, [formData,initialReading])
+    }, [formData, initialReading])
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
@@ -63,7 +63,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
             setError('Final reading cannot be less than initial reading!')
             return
         }
-        const data = { ...formData, initialReading,consumedUnits, total, balance, caForward, cumulativeTotal }
+        const data = { ...formData, initialReading, consumedUnits, total, balance, caForward, cumulativeTotal }
         try {
             const response = await appwriteService.createUsage(data)
 
@@ -105,7 +105,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="w-full sm:w-1/2 flex flex-col">
                         <label htmlFor="">Initial Reading</label>
-                        <input type="number" value={initialReading} onChange={(e) =>setInitialReading(Number(e.target.value))} name="initialReading"  disabled={isDisabled}
+                        <input type="number" value={initialReading} onChange={(e) => setInitialReading(Number(e.target.value))} name="initialReading" disabled={isDisabled}
                             placeholder="Meter Initial Reading" />
                     </div>
                     <div className="w-full sm:w-1/2 flex flex-col">
@@ -117,6 +117,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                             }))} name="Meter finalReading" placeholder="Meter Final Reading" required />
                     </div>
                 </div>
+
                 <div className="w-full flex flex-col">
                     <label htmlFor="">Client ID</label>
                     <input type="text" value={clientID} onChange={(e) =>
@@ -143,6 +144,13 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                             }))} value={formData.paid} name="paid" placeholder="Amount Paid" required />
                     </div>
                 </div>
+                {
+                    !isDisabled && <div className="w-full flex flex-col">
+                        <label htmlFor="">Carried Forward</label>
+                        <input type="text" value={caForward} onChange={(e) => setCaForward(Number(e.target.value))} name="meter" placeholder="Client ID" required  />
+                    </div>
+                }
+
                 <div className="flex flex-col sm:flex-row gap-4 font-bold">
                     <p className="border-2 border-blue-800 p-2 rounded">Consumed Units : {consumedUnits}  </p>
                     <p className="border-2 border-blue-800 p-2 rounded">Cost per unit : Ksh {costPerUnit} </p>
