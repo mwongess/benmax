@@ -69,8 +69,8 @@ const AllTimeUsage =  () => {
       </div>)
   }
   return (
-    <div>
-      <div className='flex justify-between items-center font-bold border-b pb-2'>
+    <div className='text-slate-200'>
+      <div className='flex justify-between items-center font-bold border-b border-slate-200 pb-2'>
         <h1 className='font-bold'>All  Months Usage For:  <span className='text-lg underline'>All Clients</span></h1>
         {/* <button  className='flex gap-2 items-center bg-blue-600 rounded-full py-2 px-4'><FaRegPlusSquare /> New Month Record</button> */}
       </div>

@@ -9,7 +9,7 @@ import { GiTap } from "react-icons/gi";
 const SideNav = () => {
     return (
         <div className="text-slate-200">
-            <div className="logo border border-gray-200 flex justify-center items-center h-fit p-2">
+            <div className="logo border border-slate-200 flex justify-center items-center h-fit p-2">
                 <h1 className="flex items-center text-slate-100 font-bold text-2xl  my-0 mx-auto tracking-wider">Hydrat<span className="text-blue-600 text-3xl">8</span></h1>
             </div>
             <div className="links flex flex-col   mt-4">

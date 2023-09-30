@@ -69,11 +69,11 @@ const ConsoleLayout = ({ children }: { children: React.ReactNode }) => {
       {
         // user &&
         <div className='flex min-h-screen'>
-          <div className='hidden sm:block left w-[15%] border-r p-2'>
+          <div className='hidden sm:block left w-[15%] border-r border-slate-200 p-2'>
             <SideNav />
           </div>
           <div className="right w-full sm:w-[85%]">
-            <div className='h-[9vh] border-b p-2'>
+            <div className='h-[9vh] border-b border-slate-200 p-2'>
               <TopNav />
             </div>
             <div className='p-4'>

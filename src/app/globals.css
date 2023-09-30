@@ -17,7 +17,6 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
   background: linear-gradient(to bottom,
       transparent,
       rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
@@ -41,12 +40,9 @@ body {
 .link{
   @apply  px-2 py-3
 }
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+.overview-cards{
+  @apply grid grid-cols-3 gap-4 min-h-[70vh] mt-8 p-8
 }
-
+.overview-cards div{
+  @apply border border-slate-200 bg-black rounded-[15px] p-4 cursor-pointer hover:bg-gray-400 hover:border-none
+}
