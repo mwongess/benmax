@@ -39,7 +39,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
             const thisUserData = documents.filter((document) => document.clientID === clientID)
             if (thisUserData[0]) {
                 setCaForward(thisUserData[0].cumulativeTotal)
-                setInitialReading(thisUserData[0].initialReading)
+                setInitialReading(thisUserData[0].finalReading)
             } else {
                 setCaForward(0)
                 setIsDisabled(false)
