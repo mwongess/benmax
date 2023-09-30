@@ -38,6 +38,9 @@ body {
 .new-client form input:focus{
   @apply  outline outline-2 outline-blue-500
 }
+.link{
+  @apply hover:bg-gray-50 rounded px-2 py-3
+}
 @layer base {
   * {
     @apply border-border;
