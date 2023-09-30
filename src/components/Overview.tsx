@@ -5,8 +5,9 @@ const Overview = () => {
                 <h1 className="font-bold text-2xl">Overview</h1>
             </div>
             <div className="overview-cards ">
-                <div className="all-clients-card ">
+                <div className="all-clients-card flex flex-col justify-between">
                     <h1 className="font-bold text-xl">My Clients</h1>
+                    <p className="font-bold bg-gray-300 rounded-full py-1 px-8 w-fit">{"< 5 />"}</p>
                 </div>
                 <div className="active-clients-card">
                     <h1 className="font-bold text-xl">Active Clients</h1>
