@@ -77,7 +77,6 @@ const ClientsUsage = ({ params }: { params: { clientID: string } }) => {
          `
       }
       const response = await axios.post(smsEndpoint, options, { headers: { 'Content-Type': 'application/json' } })
-      console.log(response);
       if(response.status === 200){
         toast({
           title:"Message sent",

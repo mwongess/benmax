@@ -119,7 +119,7 @@ export function ClientsTable({ data ,deleteClient}: any) {
                                 <MoreHorizontal className="h-4 w-4" />
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="bg-black rounded border border-gray-300">
+                        <DropdownMenuContent align="end" className="bg-black text-white rounded border border-gray-300">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
                             <DropdownMenuSeparator />
@@ -189,7 +189,7 @@ export function ClientsTable({ data ,deleteClient}: any) {
                             Columns <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="bg-black rounded border border-gray-300">
+                    <DropdownMenuContent align="end" className="bg-black text-white rounded border border-gray-300">
                         {table
                             .getAllColumns()
                             .filter((column) => column.getCanHide())
