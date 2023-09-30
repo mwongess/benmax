@@ -39,7 +39,7 @@ body {
   @apply  outline outline-2 outline-blue-500
 }
 .link{
-  @apply hover:bg-gray-50 rounded px-2 py-3
+  @apply  px-2 py-3
 }
 @layer base {
   * {
