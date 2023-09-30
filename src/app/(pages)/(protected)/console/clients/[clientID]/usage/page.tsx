@@ -3,6 +3,7 @@
 import { smsEndpoint } from '@/app/utils/smsEndpoint'
 import { appwriteClient, appwriteService } from '@/appwrite/config'
 import { UsageTable } from '@/components/UsageTable'
+import { toast } from '@/components/ui/use-toast'
 import config from '@/config/conf'
 import { Models } from 'appwrite'
 import axios from 'axios'
@@ -76,6 +77,12 @@ const ClientsUsage = ({ params }: { params: { clientID: string } }) => {
          `
       }
       const response = await axios.post(smsEndpoint, options, { headers: { 'Content-Type': 'application/json' } })
+      if(response.status === 200){
+        toast({
+          title:"Message sent",
+        })
+      }
+      
     } catch (error) {
       console.error(error)
     }

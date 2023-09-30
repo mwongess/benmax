@@ -18,7 +18,7 @@ export function SheetLeft() {
                 <SheetTrigger asChild>
                     <p className="text-2xl cursor-pointer"><HiOutlineMenuAlt2 /></p>
                 </SheetTrigger>
-                <SheetContent side="left" className="bg-black border-none">
+                <SheetContent side="left" className="bg-black text-white border-none">
                     <div >
                         <div className="links flex flex-col gap-4 p-2 ">
                             <div className="link">

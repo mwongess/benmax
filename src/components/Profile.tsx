@@ -42,7 +42,7 @@ const Profile = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <p className="flex gap-2 items-center cursor-pointer font-bold bg-blue-600 rounded-full px-3 py-1"><FaRegUser /> My Account </p>
+                <p className="flex gap-2 items-center cursor-pointer font-bold bg-blue-600 text-white rounded-full px-3 py-1"><FaRegUser /> My Account </p>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56 bg-black rounded border border-gray-300">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -69,7 +69,7 @@ const Profile = () => {
                             <span className="cursor-pointer">Invite Clients</span>
                         </DropdownMenuSubTrigger>
                         <DropdownMenuPortal>
-                            <DropdownMenuSubContent className="bg-black rounded border border-gray-300">
+                            <DropdownMenuSubContent className="bg-black text-white rounded border border-gray-300">
                                 <DropdownMenuItem>
                                     <Mail className="mr-2 h-4 w-4" />
                                     <span>Email</span>
