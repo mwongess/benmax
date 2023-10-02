@@ -56,6 +56,7 @@ export function AllTimeUsageTable({ data }: any) {
             id: "select",
             header: ({ table }) => (
                 <Checkbox
+                    className="border border-slate-200"
                     checked={table.getIsAllPageRowsSelected()}
                     onCheckedChange={(value: any) => table.toggleAllPageRowsSelected(!!value)}
                     aria-label="Select all"
@@ -63,6 +64,7 @@ export function AllTimeUsageTable({ data }: any) {
             ),
             cell: ({ row }) => (
                 <Checkbox
+                    className="border border-slate-200"
                     checked={row.getIsSelected()}
                     onCheckedChange={(value: any) => row.toggleSelected(!!value)}
                     aria-label="Select row"
@@ -218,7 +220,7 @@ export function AllTimeUsageTable({ data }: any) {
                                 <MoreHorizontal className="h-4 w-4" />
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="bg-black  text-white rounded border border-gray-300">
+                        <DropdownMenuContent align="end" className="bg-black  text-white rounded border border-slate-200">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
                             <DropdownMenuSeparator />
@@ -253,7 +255,7 @@ export function AllTimeUsageTable({ data }: any) {
     })
 
     return (
-        <div className="w-full">
+        <div className="w-full text-slate-200">
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter Data By Month..."
@@ -261,11 +263,11 @@ export function AllTimeUsageTable({ data }: any) {
                     onChange={(event: any) =>
                         table.getColumn("month")?.setFilterValue(event.target.value)
                     }
-                    className="max-w-sm rounded-lg"
+                    className="max-w-sm border border-slate-200 rounded-lg"
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto bg-transparent">
+                        <Button variant="outline" className="ml-auto bg-transparent border-slate-200">
                             Columns <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -290,14 +292,14 @@ export function AllTimeUsageTable({ data }: any) {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="rounded-md border">
+            <div className="rounded-md border border-slate-200">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead key={header.id} className="border-b border-slate-200 text-slate-200">
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -316,6 +318,7 @@ export function AllTimeUsageTable({ data }: any) {
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
+                                    className="border-b border-slate-200"
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>
@@ -340,8 +343,8 @@ export function AllTimeUsageTable({ data }: any) {
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="flex-1 text-sm text-muted-foreground">
+            <div className="flex items-center justify-end space-x-2 py-4 ">
+                <div className="flex-1 text-sm text-muted-foreground text-slate-200">
                     {table.getFilteredSelectedRowModel().rows.length} of{" "}
                     {table.getFilteredRowModel().rows.length} row(s) selected.
                 </div>
