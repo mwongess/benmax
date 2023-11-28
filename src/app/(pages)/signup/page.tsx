@@ -29,7 +29,7 @@ const Signup = () => {
   return (
     <div className="login flex  h-screen w-ful">
       <div className="hidden sm:flex flex-col items-center justify-end h-full w-1/2 text-center p-4">
-        <h1 className="font-bold text-6xl tracking-wider mb-6">Hydrat8 is Live</h1>
+        <h1 className="font-bold text-6xl tracking-wider mb-6">Hydrat8</h1>
         <Image className="text-blue-500" src="/cloud.svg" height={150} width={480} alt="projection" />
       </div>
       <form className="flex flex-col justify-center items-center h-full w-full sm:w-1/2 bg-white text-black" onSubmit={signup}>
