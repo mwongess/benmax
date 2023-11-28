@@ -10,8 +10,8 @@ export default function Home() {
   }, [])
   return (
     <div className='h-screen flex flex-col justify-center items-center text-center'>
-      <h1 className='font-bold text-5xl'>BenMaX</h1>
-      <p className=''>Launching page ...</p>
+      <h1 className='font-bold text-5xl'>Hydrate</h1>
+      <p className=''>Redirecting to dashboard</p>
     </div>
   )
 }
