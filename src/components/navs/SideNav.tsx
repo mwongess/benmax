@@ -35,7 +35,7 @@ const SideNav = () => {
                     <Link className="flex items-center gap-4" href="/console/alltime-usage"><span><p className="text-2xl"><AiOutlineMail /></p></span>New Email</Link>
                 </div>
                 <div className="link border-t border-slate-300">
-                    <Link className="flex items-center gap-4" href="/console/alltime-usage"><span><p className="text-2xl"><RiGuideLine /></p></span>Docs</Link>
+                    <Link className="flex items-center gap-4" href="/console/tips"><span><p className="text-2xl"><RiGuideLine /></p></span>Docs</Link>
                 </div>
             </div>
 
