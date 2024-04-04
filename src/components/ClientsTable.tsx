@@ -173,7 +173,7 @@ export function ClientsTable({ data ,deleteClient}: any) {
     })
 
     return (
-        <div className="w-full">
+        <div className="text-white w-full">
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Search Client Name..."

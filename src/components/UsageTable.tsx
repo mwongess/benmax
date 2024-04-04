@@ -273,7 +273,7 @@ export function UsageTable({ data ,alertCustomer}: any) {
     })
 
     return (
-        <div className="w-full">
+        <div className="w-full text-white">
             <div className="flex items-center py-4">
                 <Input
                     placeholder="Filter Monthly Usage..."
