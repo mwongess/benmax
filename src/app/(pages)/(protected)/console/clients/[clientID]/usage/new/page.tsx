@@ -89,13 +89,13 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
     }
 
     return (
-        <div className="new-client">
+        <div className="new-client text-white">
             <div className="flex justify-between  mb-2 border-b  pb-2">
                 <h1 className="font-bold ">New Month Usage</h1>
                 {/* <button className="flex items-center gap-3 font-bold  justify-center bg-slate-400 rounded p-2 w-[15%]">Go Back</button> */}
 
             </div>
-            <form onSubmit={handleSubmit} className="flex flex-col  gap-8 w-full">
+            <form onSubmit={handleSubmit} className="flex flex-col  gap-8 w-full text-white">
                 {
                     error &&
                     <div className="my-2 border-red-700 bg-red-400 text-red-700 rounded text-center p-4 font-bold">

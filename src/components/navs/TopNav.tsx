@@ -4,7 +4,7 @@ import { SheetLeft } from "../Sheetleft";
 
 const TopNav = () => {
   return (
-    <div className="flex justify-between items-center h-full">
+    <div className="flex justify-between items-center h-full text-white">
       <p className="hidden sm:flex text-2xl cursor-pointer"><HiOutlineMenuAlt3 /></p>
       <SheetLeft />
       <Profile />

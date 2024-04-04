@@ -44,7 +44,7 @@ const Profile = () => {
             <DropdownMenuTrigger asChild>
                 <p className="flex gap-2 items-center cursor-pointer font-bold bg-blue-600 text-white rounded-full px-3 py-1"><FaRegUser /> My Account </p>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 bg-black rounded border border-gray-300">
+            <DropdownMenuContent className="w-56 bg-black  text-white rounded border border-gray-300">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
