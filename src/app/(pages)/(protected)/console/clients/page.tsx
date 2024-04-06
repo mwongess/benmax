@@ -34,7 +34,7 @@ const Clients = () => {
         <div >
             <div className='flex justify-between items-center border-b pb-2'>
                 <h1 className='font-bold'>All Clients</h1>
-                <button onClick={goToCreateNew} className='flex gap-2 items-center bg-blue-600 rounded-full py-2 px-4'><FaRegPlusSquare /> New Client</button>
+                <button onClick={goToCreateNew} className='flex gap-2 items-center text-white bg-blue-600 rounded-full py-2 px-4'><FaRegPlusSquare /> New Client</button>
             </div>
             <div>
                 <ClientsTable data={clients} deleteClient={deleteClient}/>

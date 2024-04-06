@@ -55,4 +55,9 @@ select:focus{
 .overview-cards div {
   @apply border border-slate-200 bg-black rounded-[15px] p-4 cursor-pointer hover:bg-gray-400 hover:border-none
 }
-
+.message div{
+  @apply my-4 
+}
+.message div input,textarea{
+  @apply bg-transparent border w-full p-3 rounded
+}

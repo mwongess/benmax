@@ -1,9 +1,9 @@
 import Link from "next/link"
-import {  FaTable } from "react-icons/fa";
+import { FaTable } from "react-icons/fa";
 import { FiMessageSquare, FiUsers } from "react-icons/fi";
 import { AiOutlineDashboard, AiOutlineMail, AiOutlineTable } from "react-icons/ai";
 import { RiFileList2Line, RiGuideLine } from "react-icons/ri";
-import {MdOutlineCalendarMonth } from "react-icons/md";
+import { MdOutlineCalendarMonth } from "react-icons/md";
 import { GiTap } from "react-icons/gi";
 
 const SideNav = () => {
@@ -22,21 +22,18 @@ const SideNav = () => {
                 <div className="link ">
                     <Link className="flex items-center gap-4" href="/console/clients"><span><p className="text-2xl"><FiUsers /></p></span>My Clients</Link>
                 </div>
-                {/* <div className="link ">
-                    <Link className="flex items-center gap-4" href="/console/clients/new"><span><p className="text-2xl"><FaPlusSquare /></p></span>New Client</Link>
-                </div> */}
                 <div className="link ">
                     <Link className="flex items-center gap-4" href="/console/alltime-usage"><span><p className="text-2xl"><GiTap /></p></span>Alltime Usage</Link>
                 </div>
                 <div className="link border-t border-slate-300">
-                    <Link className="flex items-center gap-4" href="/console/alltime-usage"><span><p className="text-2xl"><FiMessageSquare /></p></span>New Message</Link>
+                    <Link className="flex items-center gap-4" href="/console/message"><span><p className="text-2xl"><FiMessageSquare /></p></span>New Message</Link>
                 </div>
-                <div className="link ">
+                {/* <div className="link ">
                     <Link className="flex items-center gap-4" href="/console/alltime-usage"><span><p className="text-2xl"><AiOutlineMail /></p></span>New Email</Link>
-                </div>
-                <div className="link border-t border-slate-300">
+                </div> */}
+                {/* <div className="link border-t border-slate-300">
                     <Link className="flex items-center gap-4" href="/console/tips"><span><p className="text-2xl"><RiGuideLine /></p></span>Docs</Link>
-                </div>
+                </div> */}
             </div>
 
         </div>
