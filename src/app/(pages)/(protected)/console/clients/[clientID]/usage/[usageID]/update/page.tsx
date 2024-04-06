@@ -1,6 +1,7 @@
 "use client"
 
 import { appwriteService } from "@/appwrite/config"
+import MonthSelector from "@/components/MonthSelector"
 import { FormEvent, useEffect, useState } from "react"
 import { FaFolderPlus } from "react-icons/fa"
 
@@ -81,7 +82,7 @@ const UpdateUserUsage = ({ params }: { params: any }) => {
   return (
     <div className="new-client">
       <h1 className="font-bold mb-2 border-b pb-2">Update Client Usage Details</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col  gap-8 w-full">
+      <form onSubmit={handleSubmit} className="flex flex-col  gap-8 w-full text-white">
         {
           error &&
           <div className="my-2 border-red-700 bg-red-400 text-red-700 rounded text-center p-4 font-bold">
@@ -116,14 +117,7 @@ const UpdateUserUsage = ({ params }: { params: any }) => {
             }))} name="meter" placeholder="Client ID" required readOnly disabled />
         </div>
         <div className="flex flex-col sm:flex-row gap-4">
-          <div className="w-full sm:w-1/2 flex flex-col">
-            <label htmlFor="">Billing Month</label>
-            <input type="text" onChange={(e) =>
-              setFormData((prev: any) => ({
-                ...prev,
-                month: e.target.value,
-              }))} min={1} name="month" value={formData.month} placeholder="Billing Month" required />
-          </div>
+          <MonthSelector setFormData={setFormData} formData={formData} />
           <div className="w-full sm:w-1/2 flex flex-col">
             <label htmlFor="">Amount Paid</label>
             <input type="number" onChange={(e) =>
@@ -144,7 +138,7 @@ const UpdateUserUsage = ({ params }: { params: any }) => {
           <p className="border-2 border-blue-800 p-2 rounded">Cumulative Bill : {cumulativeTotal}  </p>
         </div>
         <div className="flex  gap-4">
-          <button type="submit" className="flex items-center gap-3 font-bold  justify-center bg-green-500 rounded p-2  w-1/4"><FaFolderPlus /> Update</button>
+          <button type="submit" className="flex items-center gap-3 font-bold  justify-center bg-green-500 rounded p-2  w-fit"><FaFolderPlus /> Update</button>
         </div>
       </form>
     </div>

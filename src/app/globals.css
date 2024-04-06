@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -25,24 +25,34 @@ body {
 .login form div {
   @apply flex flex-col
 }
-.login form div input{
-  @apply border border-slate-600  p-2 rounded bg-transparent
+
+.login form div input {
+  @apply border border-slate-600 p-2 rounded bg-transparent
 }
-.login form div input:focus{
+
+.login form div input:focus {
   @apply border-none outline outline-2 outline-blue-500
 }
-.new-client form input{
+
+.new-client form input, select {
   @apply bg-transparent border border-blue-800 rounded p-2
 }
-.new-client form input:focus{
-  @apply  outline outline-2 outline-blue-500
+
+.new-client form input:focus, select:focus {
+  @apply outline outline-2 outline-blue-500
 }
-.link{
-  @apply  px-2 py-3
+select:focus{
+  @apply bg-black border border-blue-500
 }
-.overview-cards{
+.link {
+  @apply px-2 py-3
+}
+
+.overview-cards {
   @apply grid grid-cols-3 gap-4 min-h-[70vh] mt-8 p-8
 }
-.overview-cards div{
+
+.overview-cards div {
   @apply border border-slate-200 bg-black rounded-[15px] p-4 cursor-pointer hover:bg-gray-400 hover:border-none
 }
+

@@ -1,6 +1,7 @@
 "use client"
 
 import { appwriteService } from "@/appwrite/config"
+import MonthSelector from "@/components/MonthSelector"
 import { toast } from "@/components/ui/use-toast"
 import { Models } from "appwrite"
 import { FormEvent, useEffect, useState } from "react"
@@ -127,14 +128,15 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                         }))} name="meter" placeholder="Client ID" required readOnly disabled />
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4">
-                    <div className="w-full sm:w-1/2 flex flex-col">
+                    {/* <div className="w-full sm:w-1/2 flex flex-col">
                         <label htmlFor="">Billing Month</label>
-                        <input type="text" onChange={(e) =>
+                        <input type="date" onChange={(e) =>
                             setFormData((prev: any) => ({
                                 ...prev,
                                 month: e.target.value,
                             }))} min={1} name="month" value={formData.month} placeholder="Billing Month" required />
-                    </div>
+                    </div> */}
+                    <MonthSelector setFormData={setFormData} formData={formData} />
                     <div className="w-full sm:w-1/2 flex flex-col">
                         <label htmlFor="">Amount Paid</label>
                         <input type="number" onChange={(e) =>
@@ -147,7 +149,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                 {
                     !isDisabled && <div className="w-full flex flex-col">
                         <label htmlFor="">Carried Forward</label>
-                        <input type="text" value={caForward} onChange={(e) => setCaForward(Number(e.target.value))} name="meter" placeholder="Client ID" required  />
+                        <input type="text" value={caForward} onChange={(e) => setCaForward(Number(e.target.value))} name="meter" placeholder="Client ID" required />
                     </div>
                 }
 
@@ -162,7 +164,7 @@ const NewMonthUsage = ({ params }: { params: { clientID: string } }) => {
                     <p className="border-2 border-blue-800 p-2 rounded">Cumulative Bill : {cumulativeTotal}  </p>
                 </div>
                 <div className="flex  gap-4">
-                    <button type="submit" className="flex items-center gap-3 font-bold  justify-center bg-green-500 rounded p-2  w-1/4"><FaFolderPlus /> Save</button>
+                    <button type="submit" className="flex items-center gap-3 font-bold  justify-center bg-green-500 rounded py-2 px-5 w-fit "><FaFolderPlus /> Save</button>
                 </div>
             </form>
         </div>
