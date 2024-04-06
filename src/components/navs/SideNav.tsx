@@ -17,12 +17,14 @@ const SideNav = () => {
         { href: "/console", text: "Dashboard", icon: AiOutlineDashboard },
         { href: "/console/clients", text: "My Clients", icon: FiUsers },
         { href: "/console/alltime-usage", text: "Alltime Usage", icon: GiTap },
-        { href: "/console/message", text: "New Message", icon: FiMessageSquare }
+        // { href: "/console/message", text: "New Message", icon: FiMessageSquare }
+
     ];
 
     const userLinks = [
-        { href: "/user", text: "Dashboard", icon: AiOutlineDashboard },
-        { href: "/user/messages", text: "Messages", icon: FiMessageSquare }
+        { href: "/", text: "Dashboard", icon: AiOutlineDashboard },
+        // { href: "/user/messages", text: "Messages", icon: FiMessageSquare }
+        { href: "/user/pay", text: "Pay", icon: FiMessageSquare }
     ];
 
     return (

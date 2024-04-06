@@ -12,6 +12,7 @@ const NewClient = ({ params }: { params: { id: string } }) => {
     const [formData, setFormData] = useState({
         name: "",
         phone: "",
+        email: "",
         meter: "",
     })
 
@@ -44,6 +45,7 @@ const NewClient = ({ params }: { params: { id: string } }) => {
                     setFormData({
                         name: "",
                         phone: "",
+                        email: "",
                         meter: "",
                     })
 
@@ -62,7 +64,7 @@ const NewClient = ({ params }: { params: { id: string } }) => {
     return (
         <div className="new-client">
             <h1 className="font-bold mb-2 border-b pb-2">Create New Client</h1>
-            <form onSubmit={handleSubmit} className="flex flex-col  gap-8 w-full">
+            <form onSubmit={handleSubmit} className="flex flex-col  gap-8 w-full text-white">
                 {
                     error &&
                     <div className="my-2 border-red-700 bg-red-200 text-red-700 rounded text-center p-4 font-bold">
@@ -88,7 +90,16 @@ const NewClient = ({ params }: { params: { id: string } }) => {
                             }))} name="phone" placeholder="Client phone number (+254)" required />
                     </div>
                 </div>
-                <div className="w-full flex flex-col">
+                <div className="w-full sm:w-1/2 flex flex-col">
+                        <label htmlFor="">Email</label>
+                        <input type="email" value={formData.email} onChange={(e) =>
+                            setFormData((prev) => ({
+                                ...prev,
+                                email: e.target.value,
+                            }))} name="email"
+                            placeholder="Client Email" required/>
+                    </div>
+                <div className="w-fit flex flex-col">
                     <label htmlFor="">Meter Number</label>
                     <input type="text" value={formData.meter} onChange={(e) =>
                         setFormData((prev) => ({

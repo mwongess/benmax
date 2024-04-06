@@ -23,9 +23,9 @@ const Login = () => {
       if (session) {
         console.log(session);
         if (formData.email == "amosmwongelah@gmail.com") {
-          router.push(`/user/${session.userId}`)
-        } else {
           router.push("/console")
+        } else {
+          router.push(`/user/${session.userId}`)
         }
         setAuthStatus(true)
       }

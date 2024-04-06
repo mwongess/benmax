@@ -42,6 +42,7 @@ import { FaCopy, FaRegBell, FaUserEdit } from "react-icons/fa";
 
 
 export function UsageTable({ data ,alertCustomer}: any) {
+
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -49,7 +50,11 @@ export function UsageTable({ data ,alertCustomer}: any) {
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
+
     const router = useRouter()
+
+    // Check if the URL contains "console"
+    const showActions = window.location.href.includes("console");
     const columns: ColumnDef<any>[] = [
         {
             id: "select",
@@ -70,13 +75,6 @@ export function UsageTable({ data ,alertCustomer}: any) {
             enableSorting: false,
             enableHiding: false,
         },
-        // {
-        //     accessorKey: "clientID",
-        //     header: "Client ID",
-        //     cell: ({ row }) => (
-        //         <div className="capitalize">{row.getValue("clientID")}</div>
-        //     ),
-        // },
         {
             accessorKey: "month",
             header: "Billing Month",
@@ -217,7 +215,9 @@ export function UsageTable({ data ,alertCustomer}: any) {
                                 <MoreHorizontal className="h-4 w-4" />
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="bg-black text-white rounded border border-gray-300">
+                        {
+                            showActions && 
+                            <DropdownMenuContent align="end" className="bg-black text-white rounded border border-gray-300">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
                             <DropdownMenuSeparator />
@@ -248,6 +248,8 @@ export function UsageTable({ data ,alertCustomer}: any) {
                                 </p>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
+                        }
+                       
                     </DropdownMenu>
                 )
             },

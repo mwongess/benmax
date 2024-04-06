@@ -19,16 +19,16 @@ export const account = new Account(appwriteClient);
 const databases = new Databases(appwriteClient);
 
 export class AppwriteService {
-  async createUserAccount({ email, password, name }: CreateUserAccount) {
+  async createUserAccount({ email, password, name, id }: CreateUserAccount) {
     try {
       const userAccount = await account.create(
-        ID.unique(),
+        id ? id : ID.unique(),
         email,
         password,
         name
       );
       if (userAccount) {
-        return this.login({ email, password });
+        // return this.login({ email, password });
       } else {
         return userAccount;
       }
@@ -49,7 +49,7 @@ export class AppwriteService {
     try {
       const data = await this.getCurrentUser();
       return Boolean(data);
-    } catch (error) {}
+    } catch (error) { }
 
     return false;
   }
@@ -121,13 +121,24 @@ export class AppwriteService {
   }
   async createClient(data: any) {
     try {
-      const client = await databases.createDocument(
-        DATABASE_ID,
-        CLIENTS_COLLECTION_ID,
+      const userAccount = await account.create(
         ID.unique(),
-        data
+        data.email,
+        data.phone,
+        data.name
       );
-      return client;
+      if (userAccount) {
+        const client = await databases.createDocument(
+          DATABASE_ID,
+          CLIENTS_COLLECTION_ID,
+          userAccount.$id,
+          { name: data.name, phone: data.phone, meter: data.meter }
+        );
+        return client;
+      } else {
+        return userAccount;
+      }
+
     } catch (error) {
       throw error;
     }
@@ -194,9 +205,9 @@ export class AppwriteService {
       );
       if (deleted) {
         toast({
-            title: "Record Has Been Deleted Successfuly.",
+          title: "Record Has Been Deleted Successfuly.",
         })
-    }
+      }
     } catch (error) {
       throw error;
     }
