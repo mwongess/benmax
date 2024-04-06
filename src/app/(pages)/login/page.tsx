@@ -21,13 +21,17 @@ const Login = () => {
     try {
       const session = await appwriteService.login(formData)
       if (session) {
-        router.push("/console")
+        console.log(session);
+        if (formData.email == "amosmwongelah@gmail.com") {
+          router.push(`/user/${session.userId}`)
+        } else {
+          router.push("/console")
+        }
         setAuthStatus(true)
       }
     } catch (error: any) {
       setError(error.message)
     }
-
   }
   return (
     <div className="login flex  h-screen w-full">
@@ -46,7 +50,6 @@ const Login = () => {
           <div>
             <h1 className="font-bold text-3xl ">Sign in</h1>
           </div>
-
           <div className="my-5">
             <label htmlFor="username">Email*</label>
             <input type="email" value={formData.email} onChange={(e) =>
@@ -55,7 +58,6 @@ const Login = () => {
                 email: e.target.value,
               }))} placeholder="Enter your email" />
           </div>
-
           <div>
             <label htmlFor="password">Password*</label>
             <input type="password" value={formData.password} onChange={(e) =>
@@ -66,7 +68,6 @@ const Login = () => {
           </div>
           <button className="text-white bg-blue-500 p-2 rounded w-full border-none mt-6" type="submit">Login</button>
         </div>
-
       </form>
     </div>
   )

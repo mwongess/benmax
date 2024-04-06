@@ -1,43 +1,55 @@
-import Link from "next/link"
-import { FaTable } from "react-icons/fa";
-import { FiMessageSquare, FiUsers } from "react-icons/fi";
-import { AiOutlineDashboard, AiOutlineMail, AiOutlineTable } from "react-icons/ai";
-import { RiFileList2Line, RiGuideLine } from "react-icons/ri";
-import { MdOutlineCalendarMonth } from "react-icons/md";
-import { GiTap } from "react-icons/gi";
+"use client"
 
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { FiMessageSquare, FiUsers } from "react-icons/fi";
+import { AiOutlineDashboard, AiOutlineMail } from "react-icons/ai";
+import { GiTap } from "react-icons/gi";
 const SideNav = () => {
+    const [isConsolePage, setIsConsolePage] = useState(false);
+
+    useEffect(() => {
+        const urlContainsConsole = window.location.href.includes("console");
+        setIsConsolePage(urlContainsConsole);
+    }, []);
+
+    const consoleLinks = [
+        { href: "/console", text: "Dashboard", icon: AiOutlineDashboard },
+        { href: "/console/clients", text: "My Clients", icon: FiUsers },
+        { href: "/console/alltime-usage", text: "Alltime Usage", icon: GiTap },
+        { href: "/console/message", text: "New Message", icon: FiMessageSquare }
+    ];
+
+    const userLinks = [
+        { href: "/user", text: "Dashboard", icon: AiOutlineDashboard },
+        { href: "/user/messages", text: "Messages", icon: FiMessageSquare }
+    ];
+
     return (
         <div className="text-slate-200">
             <div className="logo border border-slate-200 flex justify-center items-center h-fit p-2">
                 <h1 className="flex items-center text-slate-100 font-bold text-2xl  my-0 mx-auto tracking-wider">Hydrat<span className="text-blue-600 text-3xl">8</span></h1>
             </div>
             <div className="links flex flex-col   mt-4">
-                <div className="link  ">
-                    <Link className="flex items-center gap-4" href="/console"><span><p className="text-2xl"><AiOutlineDashboard /></p></span> Dashboard</Link>
-                </div>
-                <div className="link ">
-                    <Link className="flex items-center gap-4" href="/console/clients"><span><p className="text-2xl"><MdOutlineCalendarMonth /></p></span>This Month</Link>
-                </div>
-                <div className="link ">
-                    <Link className="flex items-center gap-4" href="/console/clients"><span><p className="text-2xl"><FiUsers /></p></span>My Clients</Link>
-                </div>
-                <div className="link ">
-                    <Link className="flex items-center gap-4" href="/console/alltime-usage"><span><p className="text-2xl"><GiTap /></p></span>Alltime Usage</Link>
-                </div>
-                <div className="link border-t border-slate-300">
-                    <Link className="flex items-center gap-4" href="/console/message"><span><p className="text-2xl"><FiMessageSquare /></p></span>New Message</Link>
-                </div>
-                {/* <div className="link ">
-                    <Link className="flex items-center gap-4" href="/console/alltime-usage"><span><p className="text-2xl"><AiOutlineMail /></p></span>New Email</Link>
-                </div> */}
-                {/* <div className="link border-t border-slate-300">
-                    <Link className="flex items-center gap-4" href="/console/tips"><span><p className="text-2xl"><RiGuideLine /></p></span>Docs</Link>
-                </div> */}
+                {isConsolePage ?
+                    consoleLinks.map((link, index) => (
+                        <div className="link" key={index}>
+                            <Link href={link.href} passHref className="flex items-center gap-4">
+                                <span><p className="text-2xl">{<link.icon />}</p></span> {link.text}
+                            </Link>
+                        </div>
+                    )) :
+                    userLinks.map((link, index) => (
+                        <div className="link" key={index}>
+                            <Link href={link.href} passHref className="flex items-center gap-4">
+                                <span><p className="text-2xl">{<link.icon />}</p></span> {link.text}
+                            </Link>
+                        </div>
+                    ))
+                }
             </div>
-
         </div>
-    )
+    );
 }
 
-export default SideNav
+export default SideNav;

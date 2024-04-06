@@ -11,13 +11,13 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { FaRegPlusSquare } from 'react-icons/fa'
 
-const ClientsUsage = ({ params }: { params: { clientID: string } }) => {
+const UserLanding = ({ params }: { params: { userID: string } }) => {
   const [error, setError] = useState('')
   const [clientName, setClientName] = useState('')
   const [loading, setLoading] = useState(false)
   const [clientDetails, setClientDetails] = useState<any>({})
 
-  const { clientID } = params
+  const { userID: clientID } = params
   const [data, setData] = useState<Models.Document[]>([])
 
   const router = useRouter()
@@ -113,12 +113,11 @@ const ClientsUsage = ({ params }: { params: { clientID: string } }) => {
   return (
     <div>
       <div className='flex justify-between items-center font-bold border-b pb-2'>
-        <h1 className='font-bold'>All Months Usage For:  <span className='text-lg underline'>{clientName}</span></h1>
-        <button onClick={goToCreateNew} className='flex gap-2 items-center bg-blue-600 rounded-full py-2 px-4'><FaRegPlusSquare /> New Month Record</button>
+        <h1 className='font-bold text-white'>My usage:</h1>
       </div>
       <UsageTable data={data} alertCustomer={alertCustomer} />
     </div>
   )
 }
 
-export default ClientsUsage
+export default UserLanding

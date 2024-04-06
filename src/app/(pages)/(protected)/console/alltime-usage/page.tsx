@@ -2,21 +2,16 @@
 
 import { appwriteClient, appwriteService } from '@/appwrite/config'
 import { AllTimeUsageTable } from '@/components/AllTimeUsageTable'
-import { UsageTable } from '@/components/UsageTable'
 import config from '@/config/conf'
 import { Models } from 'appwrite'
-import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { FaRegPlusSquare } from 'react-icons/fa'
 
-const AllTimeUsage =  () => {
+const AllTimeUsage = () => {
   const [error, setError] = useState('')
-  const [clientName, setClientName] = useState('')
   const [loading, setLoading] = useState(false)
 
   const [data, setData] = useState<Models.Document[]>([])
-
-  const router = useRouter()
 
   useEffect(() => {
     fetchClients()
@@ -35,7 +30,7 @@ const AllTimeUsage =  () => {
       unsubscribe();
     };
   }, []);
-  
+
   const fetchClients = async () => {
     try {
       setLoading(true)
@@ -48,7 +43,7 @@ const AllTimeUsage =  () => {
       setError(error.message)
     }
   }
-  
+
   if (loading) {
     return (
       <div className='flex flex-col gap-4'>
@@ -72,7 +67,6 @@ const AllTimeUsage =  () => {
     <div className='text-slate-200'>
       <div className='flex justify-between items-center font-bold border-b border-slate-200 pb-2'>
         <h1 className='font-bold'>All  Months Usage For:  <span className='text-lg underline'>All Clients</span></h1>
-        {/* <button  className='flex gap-2 items-center bg-blue-600 rounded-full py-2 px-4'><FaRegPlusSquare /> New Month Record</button> */}
       </div>
       <AllTimeUsageTable data={data} />
     </div>

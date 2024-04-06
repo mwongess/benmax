@@ -6,7 +6,6 @@ import TopNav from '@/components/navs/TopNav'
 import config from '@/config/conf'
 import { AuthProvider } from '@/context/authContext'
 import { Models } from 'appwrite'
-import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 const ConsoleLayout = ({ children }: { children: React.ReactNode }) => {
@@ -16,9 +15,6 @@ const ConsoleLayout = ({ children }: { children: React.ReactNode }) => {
   const [clients, setClients] = useState<Models.Document[]>([])
   const [clientUsage, setClientUsage] = useState<Models.Document[]>([])
   const [error, setError] = useState<any>('')
-
-  const router = useRouter()
-  const { clientID } = useParams()
 
   useEffect(() => {
     getUser()
@@ -59,15 +55,9 @@ const ConsoleLayout = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  // useEffect(() => {
-  //   console.log(clientID);
-
-  // }, [clientID])
-
   return (
     <AuthProvider value={{ user, authStatus, setAuthStatus, clients, setClients, clientUsage }}>
       {
-        // user &&
         <div className='flex min-h-screen'>
           <div className='hidden sm:block left w-[15%] border-r border-slate-200 p-2'>
             <SideNav />
