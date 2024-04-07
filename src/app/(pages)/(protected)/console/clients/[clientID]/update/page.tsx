@@ -60,7 +60,7 @@ const UpdateClient = ({ params }: { params: { clientID: string } }) => {
   return (
     <div className="new-client">
       <h1 className="font-bold mb-2 border-b pb-2">Update Existing Client</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col  gap-8 w-full">
+      <form onSubmit={handleSubmit} className="flex flex-col  gap-8 w-full text-white">
         {
           error &&
           <div className="my-2 border-red-700 bg-red-200 text-red-700 rounded text-center p-4 font-bold">

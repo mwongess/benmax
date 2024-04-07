@@ -8,6 +8,7 @@ import { FormEvent, useState } from "react"
 
 const Login = () => {
   const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false) // New loading state
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -18,12 +19,13 @@ const Login = () => {
 
   const login = async (e: FormEvent) => {
     e.preventDefault()
+    setLoading(true) // Set loading to true when login starts
     try {
       const session = await appwriteService.login(formData)
       if (session) {
         console.log(session);
         if (formData.email == "amosmwongelah@gmail.com") {
-          router.push("/console")
+          router.push("/console/clients")
         } else {
           router.push(`/user/${session.userId}`)
         }
@@ -31,6 +33,8 @@ const Login = () => {
       }
     } catch (error: any) {
       setError(error.message)
+    } finally {
+      setLoading(false) // Set loading to false when login ends (either success or failure)
     }
   }
   return (
@@ -66,7 +70,9 @@ const Login = () => {
                 password: e.target.value,
               }))} placeholder="Enter your password" />
           </div>
-          <button className="text-white bg-blue-500 p-2 rounded w-full border-none mt-6" type="submit">Login</button>
+          <button className={`text-white ${loading ? 'bg-blue-300' : 'bg-blue-500'} p-2 rounded w-full border-none mt-6`} type="submit" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
         </div>
       </form>
     </div>
